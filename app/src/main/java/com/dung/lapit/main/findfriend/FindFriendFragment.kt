@@ -1,0 +1,87 @@
+package com.example.dung.applabit.main.findfriend
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dung.lapit.R
+import com.dung.lapit.adapter.FrindFriendAdapter
+import com.example.dung.applabit.Model.User
+import com.dung.lapit.main.profile.ProfileActivity
+import kotlinx.android.synthetic.main.fragment_find_friend.*
+
+class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapter.OnCliclItemListener {
+
+
+    private lateinit var friendAdapter: FrindFriendAdapter
+    private lateinit var users: ArrayList<User>
+    private lateinit var findFriendPresenter: FindFriendPresenter
+
+    companion object {
+        const val TAG = "FindFriendFragment"
+        val newFragment = FindFriendFragment()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_find_friend, container, false)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findFriendPresenter = FindFriendPresenter(this)
+
+        init()
+
+
+    }
+
+    private fun init() {
+        //TODO...
+
+        val linearLayoutManager = GridLayoutManager(activity, 2)
+        rcvFindFriend.layoutManager = linearLayoutManager
+        users = ArrayList()
+        friendAdapter = FrindFriendAdapter(activity!!, users)
+        rcvFindFriend.adapter = friendAdapter
+        friendAdapter.setOnClickItemListener(this)
+
+    }
+
+
+    override fun onClickItem(user: User) {
+        val intent = Intent(activity!!, ProfileActivity::class.java)
+        startActivity(intent)
+
+    }
+
+    override fun getFriendSuccess(users: User) {
+        friendAdapter.insertItem(users)
+
+    }
+
+    override fun getFriendFailed(users: User) {
+        friendAdapter.insertItem(users)
+
+    }
+
+    override fun updateFriendSuccess(userUpdate: User) {
+        friendAdapter.updateItem(userUpdate)
+
+    }
+
+    override fun showProgressBar() {
+        progersstbar_find_frien.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progersstbar_find_frien.visibility = View.INVISIBLE
+
+    }
+}

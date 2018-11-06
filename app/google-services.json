@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "217696290889",
+    "firebase_url": "https://login-e77c0.firebaseio.com",
+    "project_id": "login-e77c0",
+    "storage_bucket": "login-e77c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217696290889:android:79f73f0616110a97",
+        "android_client_info": {
+          "package_name": "com.dung.lapit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217696290889-oj6c40o4n9u6mppfrkb6qhipeht3hccj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dung.lapit",
+            "certificate_hash": "cd0c44e57fc9755a655a431cdbc81de77fe667ee"
+          }
+        },
+        {
+          "client_id": "217696290889-mtb0hfvhjuqtmqbq7ga0hovatu0trqoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD7qHtGDHwbZ_wXMOLvMps8BBE3OFzQV0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217696290889-mtb0hfvhjuqtmqbq7ga0hovatu0trqoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

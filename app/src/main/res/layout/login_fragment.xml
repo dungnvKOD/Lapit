@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:background="@drawable/background1"
+              android:orientation="vertical"
+              android:padding="16dp"
+              tools:context=".loginandregister.login.LoginFragment">
+    <ImageView android:layout_width="wrap_content"
+               android:src="@drawable/logo22"
+               android:layout_height="wrap_content"
+    />
+    <TextView
+            android:id="@+id/txtErrorL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextError"
+            android:text="@string/Connect"
+            android:textSize="15sp"
+            android:paddingBottom="20dp"
+            tools:ignore="SmallSp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterMaxLength="25">
+
+        <EditText
+                android:text="dung@gmail.com"
+                android:id="@+id/edtEmailL"
+                style="@style/TextAppearance.AppCompat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edt_text"
+                android:drawableLeft="@drawable/baseline_email_black_18dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="16dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:counterMaxLength="25"
+            app:passwordToggleEnabled="true">
+
+        <!--android:duplicateParentState="true"-->
+        <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/edtPasswordL"
+                style="@style/TextAppearance.AppCompat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edt_text"
+                android:drawableLeft="@drawable/baseline_fingerprint_black_24"
+                android:hint="@string/password"
+                android:text="dung1995"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="16dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:id="@+id/btnLoginL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_buttom"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:textColor="@color/colorTextLight"/>
+
+    <TextView
+            android:id="@+id/btnRegisterL"
+            style="@style/TextAppearance.AppCompat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/sign_up_for_an_account"
+            android:textColor="@color/colorTextLight"/>
+</LinearLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Lapit</string>
+
+
+
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">email</string>
+    <string name="login">Login</string>
+    <string name="password">password</string>
+    <string name="sign_up_for_an_account">Sign up for an account.</string>
+    <string name="what_is_your_birthday">What is your birthday</string>
+    <string name="your_city">your city</string>
+    <string name="next">Next</string>
+    <string name="register">Register</string>
+    <string name="re_password">re-password</string>
+    <string name="menu_findfriend">findFriend</string>
+    <string name="menu_like">like</string>
+    <string name="menu_friend">friend</string>
+    <string name="menu_profile">profile</string>
+    <string name="add_nam">Nam</string>
+    <string name="add_nu">Nu</string>
+    <string name="menu_message">message</string>
+    <string name="name">Name</string>
+    <string name="ngay_sinh">Ngay sinh</string>
+    <string name="gioi_tinh">Gioi tinh</string>
+    <string name="Connect">Connect to the community, share information</string>
+</resources>
