@@ -2,6 +2,8 @@ package com.dung.lapit.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +12,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.User
 import kotlinx.android.synthetic.main.item_find_friend.view.*
 
 class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TAG = "FrindFriendAdapter"
@@ -42,14 +46,16 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
 
 //               double doubleNumber = 10.08d;
 //    String str = currentLocale.format(doubleNumber)
-            val km = "%.1f".format(distance(
+            val km = "%.1f".format(
+                distance(
                     App.getInsatnce().latitude,
                     App.getInsatnce().longitude,
                     user.latitude,
                     user.longitude
-            ))
+                )
+            )
             holder.txtKm.text =
-                    km + " km"
+                    "$km km"
 
             if (user.status) {
                 Log.d(TAG, "online")
@@ -60,13 +66,20 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                 holder.imgOnOff.setImageResource(R.drawable.ic_offline)
 
             }
-            Glide.with(context).load(user.imageAvatarURL).into(holder.imgBackground)
+            Glide.with(context).load(user.imageAvatarURL).into(object : SimpleTarget<Drawable>(200, 200) {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+
+                    holder.imgBackground.setImageDrawable(resource)
+                    holder.itemView.setOnClickListener {
+                        onCliclItemListener.onClickItem(user, resource)
+                    }
+                }
+            })
+
 
         }
 
-        holder.itemView.setOnClickListener {
-            onCliclItemListener.onClickItem(user)
-        }
+
     }
 
     fun insertItem(user: User) {
@@ -106,7 +119,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
      */
 
     interface OnCliclItemListener {
-        fun onClickItem(user: User)
+        fun onClickItem(user: User, drawable: Drawable)
     }
 
     fun setOnClickItemListener(onCliclItemListener: OnCliclItemListener) {

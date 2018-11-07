@@ -1,12 +1,14 @@
 package com.dung.lapit;
 
 import android.app.Application;
+import android.graphics.drawable.Drawable;
 
 public class App extends Application {
 
     private double latitude;
     private double longitude;
     private boolean gender;
+    private Drawable drawable;
 
     private static App insatnce;
 
@@ -45,5 +47,13 @@ public class App extends Application {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public Drawable getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
     }
 }

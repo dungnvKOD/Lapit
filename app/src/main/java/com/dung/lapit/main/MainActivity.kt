@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import com.dung.lapit.App
 import com.dung.lapit.R
 import com.dung.lapit.main.profile.ProfileActivity
+import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.main.findfriend.FindFriendFragment
 import com.example.dung.applabit.main.friend.FriendFragment
 import com.example.dung.applabit.main.like.LikeFragment
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mainPresenter = MainPresenter()
         mainPresenter.insertStatus(true)
-
 
         init()
         Log.d(TAG, App.getInsatnce().isGender.toString() + ".....")
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_profile -> {
 
-                    val intent = Intent(this@MainActivity, ProfileActivity::class.java)
+                    val intent = Intent(this@MainActivity, WallActivity::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     fun getLocation() {
 
         val mFusedLocationProviderClient: FusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(applicationContext)
+            LocationServices.getFusedLocationProviderClient(applicationContext)
         mFusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
 
             if (location != null) {
@@ -139,7 +139,8 @@ class MainActivity : AppCompatActivity() {
         var fragment: androidx.fragment.app.Fragment? = fm.findFragmentByTag(tag)
 
         if (fragment != null) {
-            val frms: ArrayList<androidx.fragment.app.Fragment> = fm.fragments as ArrayList<androidx.fragment.app.Fragment>
+            val frms: ArrayList<androidx.fragment.app.Fragment> =
+                fm.fragments as ArrayList<androidx.fragment.app.Fragment>
 
             for (frm: androidx.fragment.app.Fragment in frms) {
 
@@ -150,12 +151,12 @@ class MainActivity : AppCompatActivity() {
 //                                R.anim.right_enter,
 //                                R.anim.right_exit
 //                        )
-                        .hide(frm)
-                        .commit()
+                    .hide(frm)
+                    .commit()
             }
             fm.beginTransaction()
-                    .show(f)
-                    .commit()
+                .show(f)
+                .commit()
 
         } else {
             fragment = f
@@ -168,9 +169,9 @@ class MainActivity : AppCompatActivity() {
 //                                R.anim.right_enter,
 //                                R.anim.right_exit
 //                        )
-                        .add(rootId, f, tag)
-                        .addToBackStack(null)
-                        .commit()
+                    .add(rootId, f, tag)
+                    .addToBackStack(null)
+                    .commit()
             } else {
                 fm.beginTransaction()
 //                        .setCustomAnimations(
@@ -180,8 +181,8 @@ class MainActivity : AppCompatActivity() {
 //                                R.anim.right_exit
 //                        )
 
-                        .add(rootId, f, tag)
-                        .commit()
+                    .add(rootId, f, tag)
+                    .commit()
             }
         }
 

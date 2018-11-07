@@ -1,6 +1,8 @@
 package com.example.dung.applabit.Model
 
-class User {
+import java.io.Serializable
+
+class User : Serializable {
     var idUser: String? = null
     var name: String? = null
     var ngaySinh: Long = -1

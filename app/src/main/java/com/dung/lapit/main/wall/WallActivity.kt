@@ -5,18 +5,29 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.ProgressDialog
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.ImageList
+import com.example.dung.applabit.Model.User
+import com.example.dung.applabit.conmon.Constant
+import com.example.dung.applabit.util.MyUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -25,7 +36,6 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_wall.*
 
 class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListener {
-
 
     private lateinit var wallPrecenter: WallPrecenter
     private lateinit var dialogLoading: ProgressDialog
@@ -48,34 +58,69 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
 
-
         init()
     }
 
+    @SuppressLint("RestrictedApi", "SetTextI18n")
     private fun init() {
         wallPrecenter = WallPrecenter(this, this)
-        /**
-         *         lay thong thaong tin
-         */
-        wallPrecenter.getMyInfo(reference, auth)
-        /**
-         *  lay tat ca cac anh co trong
-         */
-        getListImage()
+        var bundle = intent.extras
+
+
+        if (bundle != null) {
+            /**
+             * dc goi khi click vao bottom
+             */
+            fabLike.visibility = View.VISIBLE
+            btnSenMessage.visibility = View.VISIBLE
+
+            val user: User = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
+
+            txtName.text = user.name
+            txtDiaChi.text = MyUtils().hereLocation(user.latitude, user.longitude, this)
+            txtNamSinh.text = MyUtils().convertTime(user.ngaySinh, MyUtils.TYPE_DATE_D_M_YYYY)
+            val km = "%.1f".format(
+                MyUtils().distance(
+                    user.latitude,
+                    user.longitude,
+                    App.getInsatnce().latitude,
+                    App.getInsatnce().longitude
+                )
+            )
+            txtKhoangCach.text = "$km Km"
+            if (user.status) {
+
+                imgTRangThai.setImageResource(R.drawable.ic_online)
+            } else {
+                imgTRangThai.setImageResource(R.drawable.ic_offline)
+
+            }
+            imgAvatarP.setImageDrawable(App.getInsatnce().drawable)
+            progressPA.visibility = View.GONE //khi truyen sang thi khong load tu server
+
+            bundle = null //dat cuoi cung
+        } else {
+            /**
+             *       dc goi khi click vao navigabottom
+             */
+            fabLike.visibility = View.GONE
+            btnSenMessage.visibility = View.GONE
+            wallPrecenter.getMyInfo(reference, auth)
+            getListImage(reference, auth.currentUser!!.uid)
+
+        }
+
 
         //////// dang ky su kien
         fabLike.setOnClickListener(this)
         btnSenMessage.setOnClickListener(this)
         imgAvatarP.setOnClickListener(this)
-
-
     }
 
     /**
      *  click...
      */
 
-    @SuppressLint("RestrictedApi")
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.fabLike -> {
@@ -89,25 +134,36 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             }
 
             R.id.imgAvatarP -> {
-                if (drb != null) {
-                    mShortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-                    zoomImageFromThumb(imgAvatarP, drb!!)
-                    btnSenMessage.visibility = View.GONE
-                    fabLike.visibility = View.GONE
 
+                //neu dc goi tu view khac ngoai 3 fragment thif phai xem lai daon nay
+                if (App.getInsatnce().drawable != null) { //neu dc goi tu fragment thi App.getInsatnce().drawable se khac null , duoi ondestroy da gan bang null,
+                    imageAvatar(App.getInsatnce().drawable)
+                } else {
+                    imageAvatar(drb)
                 }
+
             }
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    private fun imageAvatar(drawable: Drawable?) {
+        if (drawable != null) {
+            mShortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+            zoomImageFromThumb(imgAvatarP, drawable)
+            btnSenMessage.visibility = View.GONE
+            fabLike.visibility = View.GONE
+
+        }
+    }
 
     /**
      * get image
      *
      */
 
-    fun getListImage() {
-        wallPrecenter.getListImage(reference, auth)
+    fun getListImage(reference: DatabaseReference, uid: String) {
+        wallPrecenter.getListImage(reference, uid)
     }
 
     /**
@@ -129,14 +185,15 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         imgAvatarP.setImageDrawable(drawable)
         this.drb = drawable
 
+
     }
 
     override fun onLoadImageFailed() {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onLoadDataSuccess(name: String, namSinh: String, gioiTinh: String, viTri: String) {
-
         txtName.text = name
         Toast.makeText(this, viTri, Toast.LENGTH_SHORT).show()
         txtDiaChi.text = viTri
@@ -158,7 +215,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
     override fun showProgressBarListImage() {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-
         progressPA.visibility = View.VISIBLE
     }
 
@@ -168,19 +224,19 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     }
 
     override fun showDialogAddImage() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hideDialogAddImage() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onAddImageSuccess(image: ImageList) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onAddImageFailed() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -264,8 +320,12 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
         expanded_image.setOnClickListener {
             mCurrentAnimator?.cancel()
-            btnSenMessage.visibility = View.VISIBLE
-            fabLike.visibility = View.VISIBLE
+
+            if (App.getInsatnce().drawable != null) { //neu dc goi tu fragment thi khong show len
+                btnSenMessage.visibility = View.VISIBLE
+                fabLike.visibility = View.VISIBLE
+            }
+
 
             mCurrentAnimator = AnimatorSet().apply {
                 play(ObjectAnimator.ofFloat(expanded_image, View.X, startBounds.left)).apply {
@@ -294,5 +354,70 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             }
         }
     }
+    /**
+     * /////////////////////////////////////////////////////////////////////////////////////////////
+     *  thooi
+     */
+
+    /**
+     *  request permisstion .....
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    fun requestPermissionsSafely(permissions: Array<String>, requestCode: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(this@WallActivity, permissions, requestCode)
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    fun hasPermission(permission: String): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     *  thong bao ...
+     *
+     */
+
+    fun toast(message: String) {
+        return Toast.makeText(this@WallActivity, message, Toast.LENGTH_LONG).show()
+    }
+
+    /**
+     *  Dialog...
+     */
+    fun showProgressDialog(title: String, message: String) {
+        dialogLoading = ProgressDialog(this)
+        hideProgressDialog()
+        dialogLoading.setTitle(title)
+        dialogLoading.setMessage(message)
+        dialogLoading = showLoadingDialog(this)
+    }
+
+    fun hideProgressDialog() {
+        if (dialogLoading != null && dialogLoading.isShowing) {
+            dialogLoading.cancel()
+        }
+
+    }
+
+    fun showLoadingDialog(context: Context): ProgressDialog {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.getInsatnce().drawable = null
+    }
+
 
 }

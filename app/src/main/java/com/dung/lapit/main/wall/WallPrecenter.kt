@@ -29,7 +29,7 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
      *  get list Image
      */
 
-    fun getListImage(reference: DatabaseReference, auth: FirebaseAuth) {
+    fun getListImage(reference: DatabaseReference, uid: String) {
 //      onWallViewListener.
 
     }
