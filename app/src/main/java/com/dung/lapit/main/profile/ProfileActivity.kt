@@ -32,7 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.adapter.ProfileAdapter
-
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.main.profile.OnProfileViewListener
 import com.example.dung.applabit.main.profile.ProfilePresenter
@@ -65,6 +64,7 @@ class ProfileActivity : AppCompatActivity(), OnProfileViewListener, View.OnClick
     @SuppressLint("WrongConstant")
     private fun init() {
 
+
         profilePresenter = ProfilePresenter(this, this)
         val linearLayoutManager = GridLayoutManager(this, 3)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -79,7 +79,7 @@ class ProfileActivity : AppCompatActivity(), OnProfileViewListener, View.OnClick
 
     }
 
-    //adapter van chua xong
+
     override fun onClickItemZoom(drawable: Drawable, position: Int, time: Long, imgItem: View) {
         Handler().postDelayed({
             txtTimeListImage.text = MyUtils().convertTime(time, MyUtils.TYPE_DATE_D_M_YYYY)

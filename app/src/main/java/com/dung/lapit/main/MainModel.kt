@@ -9,7 +9,7 @@ class MainModel {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private lateinit var reference: DatabaseReference
+    private  var reference: DatabaseReference
 
     init {
         reference = firebaseDatabase.reference

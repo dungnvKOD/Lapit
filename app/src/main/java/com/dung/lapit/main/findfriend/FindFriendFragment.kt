@@ -11,13 +11,14 @@ import com.dung.lapit.R
 import com.dung.lapit.adapter.FrindFriendAdapter
 import com.example.dung.applabit.Model.User
 import com.dung.lapit.main.profile.ProfileActivity
+import com.dung.lapit.main.wall.WallActivity
 import kotlinx.android.synthetic.main.fragment_find_friend.*
 
 class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapter.OnCliclItemListener {
 
 
     private lateinit var friendAdapter: FrindFriendAdapter
-    private lateinit var users: ArrayList<User>
+    private var users: ArrayList<User> = ArrayList()
     private lateinit var findFriendPresenter: FindFriendPresenter
 
     companion object {
@@ -47,7 +48,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
 
         val linearLayoutManager = GridLayoutManager(activity, 2)
         rcvFindFriend.layoutManager = linearLayoutManager
-        users = ArrayList()
+        users.clear()
         friendAdapter = FrindFriendAdapter(activity!!, users)
         rcvFindFriend.adapter = friendAdapter
         friendAdapter.setOnClickItemListener(this)
@@ -56,7 +57,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
 
 
     override fun onClickItem(user: User) {
-        val intent = Intent(activity!!, ProfileActivity::class.java)
+        val intent = Intent(activity!!, WallActivity::class.java)
         startActivity(intent)
 
     }

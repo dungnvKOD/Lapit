@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffff"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
+
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                             android:layout_width="match_parent"
+                                                             android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:contentScrim="@color/colorAccent"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:orientation="vertical">
+
+                        <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="64dp">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/imgAvatarP"
+                                    android:layout_width="96dp"
+                                    android:layout_height="96dp"
+                                    android:src="@drawable/ic_city"
+                                    app:civ_border_width="2dp"/>
+
+                            <ProgressBar
+                                    android:id="@+id/progressPA"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:visibility="gone"/>
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/colorPurple">
+
+                            <ImageView
+                                    android:id="@+id/imgTRangThai"
+                                    android:layout_width="16dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="8dp"
+                                    android:layout_toLeftOf="@id/txtName"
+                                    android:src="@drawable/ic_offline"/>
+
+                            <TextView
+                                    android:id="@+id/txtName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="8dp"
+                                    android:text="txtName"
+                                    android:textColor="#2d2626"
+                                    android:textSize="32sp"
+                                    android:textStyle="bold"/>
+
+                            <TextView
+                                    android:id="@+id/txtNamSinh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txtName"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="txtNamSinh"
+                                    android:textColor="#2d2626"
+                                    android:textSize="16sp"/>
+
+                            <TextView
+                                    android:id="@+id/txtDiaChi"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txtNamSinh"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="DiaChi"
+                                    android:textColor="#2d2626"
+                                    android:textSize="16sp"/>
+
+
+                            <TextView
+                                    android:id="@+id/txtKhoangCach"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txtDiaChi"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="Khoang Cach"
+                                    android:textColor="#2d2626"
+                                    android:textSize="16sp"/>
+
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbarProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                            app:layout_collapseMode="pin"
+                            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                    </androidx.appcompat.widget.Toolbar>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.navigation.NavigationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#c4c4c4"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcvImages"
+                            android:layout_width="475dp"
+                            android:layout_height="match_parent"/>
+
+                    <ProgressBar
+                            android:id="@+id/progressBarListImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="24dp"
+                            android:visibility="gone"/>
+                </RelativeLayout>
+
+
+            </com.google.android.material.navigation.NavigationView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!-- ImageView ẩn ban đầu này sẽ giữ phiên bản mở rộng
+        / thu phóng của những hình ảnh trên. Nếu không có biến đổi được áp dụng, nó chiếm toàn bộ màn.
+                    Để đạt được hoạt ảnh "thu phóng",
+                     giới hạn của chế độ xem này được hoạt ảnh từ giới hạn của nút hình thu nhỏ ở trên, đến phần cuối cùng được đặt ra giới hạn
+                        -->
+
+
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnSenMessage"
+            android:visibility="visible"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_like"/>
+
+    <Button
+            android:id="@+id/btnSenMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:text="Nhan Tin"/>
+
+    <RelativeLayout
+            android:id="@+id/layoutImageList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+        <TextView
+                android:id="@+id/txtTimeListImage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="zxcxzczxc"/>
+
+        <ImageView
+                android:id="@+id/expanded_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="#d4000000"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
+
+</RelativeLayout>

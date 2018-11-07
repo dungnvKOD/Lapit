@@ -67,7 +67,6 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
         holder.itemView.setOnClickListener {
             onCliclItemListener.onClickItem(user)
         }
-
     }
 
     fun insertItem(user: User) {
