@@ -1,4 +1,4 @@
-package com.example.dung.applabit.main.profile
+package com.dung.lapit.main.wall
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,45 +13,25 @@ import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.Model.User
+import com.example.dung.applabit.main.profile.ProfileModel
 import com.example.dung.applabit.util.MyUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.lang.Exception
 import java.util.*
-import kotlin.collections.HashMap
 
-class ProfileModel(private val onProfileListener: OnProfileListener, private val context: Context?) {
-
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var reference: DatabaseReference
-    private var storage: FirebaseStorage
-    private var srf: StorageReference
+class WallModel(val context: Context, val onWallListener: OnWallListener) {
     private var check = false
 
-    companion object {
-        const val TAG = "ProfileModel"
-    }
-
-    init {
-        reference = firebaseDatabase.reference
-        storage = FirebaseStorage.getInstance()
-        srf = storage.reference
-        getData()
-        getListImage()
-
-    }
-
-    fun addImageList(uri: String, time: Long, check: Boolean) {
+    fun addImageList(uri: String, time: Long, check: Boolean, auth: FirebaseAuth, str: StorageReference, reference: DatabaseReference) {
         this.check = check
         val nameFile = auth.currentUser!!.uid + "$time"
 
-        val line = srf.child("Images").child(nameFile).putFile(Uri.parse(uri))
+        val line = str.child("Images").child(nameFile).putFile(Uri.parse(uri))
         line.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                srf.child("Images").child(nameFile).downloadUrl.addOnSuccessListener { uri: Uri? ->
+                str.child("Images").child(nameFile).downloadUrl.addOnSuccessListener { uri: Uri? ->
                     val hashMap: HashMap<String, Any> = HashMap()
                     hashMap["url"] = uri.toString()
                     hashMap["time"] = time
@@ -66,48 +46,11 @@ class ProfileModel(private val onProfileListener: OnProfileListener, private val
         }
     }
 
-    fun getListImage() {
+    fun getMyInfo(reference: DatabaseReference, auth: FirebaseAuth) {
 
-        reference.child("Images").child(auth.currentUser!!.uid)
-                .addChildEventListener(object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-
-                        if (check) {
-                            onProfileListener.onAddImageFailed()
-                            check = false
-                        } else {
-                            onProfileListener.onLoadListImageFailed()
-                        }
-                    }
-
-                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                    }
-
-                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    }
-
-                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-
-                        Log.d(TAG, "Ton tai$p0")
-                        val image = p0.getValue(ImageList::class.java)!!
-                        if (check) {
-                            onProfileListener.onAddImageSuccess(image)
-                            check = false
-                        } else {
-                            onProfileListener.onLoadListImageSuccess(image)
-                        }
-                    }
-
-                    override fun onChildRemoved(p0: DataSnapshot) {
-
-                    }
-                })
-    }
-
-    fun getData() {
         val valueEventListener: ValueEventListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                onProfileListener.onLoadDataFailed()
+                onWallListener.onLoadDataFailed()
             }
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -123,9 +66,9 @@ class ProfileModel(private val onProfileListener: OnProfileListener, private val
                     } else {
                         "nu"
                     }
-                    val viTri = hereLocation(user.latitude, user.longitude)
-                    Log.d(TAG, "$viTri ${user.latitude}  ${user.longitude}")
-                    onProfileListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
+                    val viTri = hereLocation(App.getInsatnce().latitude, App.getInsatnce().longitude) + ""
+                    Log.d(ProfileModel.TAG, "$viTri ${user.latitude}  ${user.longitude}")
+                    onWallListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
                     loadImage(user.imageAvatarURL)
 
                 } else {
@@ -138,9 +81,9 @@ class ProfileModel(private val onProfileListener: OnProfileListener, private val
                     } else {
                         "nu"
                     }
-                    val viTri = hereLocation(user.latitude, user.longitude)
-                    Log.d(TAG, "$viTri ${user.latitude}  ${user.longitude}")
-                    onProfileListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
+                    val viTri = hereLocation(App.getInsatnce().latitude, App.getInsatnce().longitude)
+                    Log.d(ProfileModel.TAG, "$viTri ${user.latitude}  ${user.longitude}")
+                    onWallListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
                     loadImage(user.imageAvatarURL)
 
                 }
@@ -178,9 +121,48 @@ class ProfileModel(private val onProfileListener: OnProfileListener, private val
         Glide.with(context)
                 .load(Uri.parse(url)).into(object : SimpleTarget<Drawable>() {
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        onProfileListener.onLoadImageSuccess(resource)
+                        onWallListener.onLoadImageSuccess(resource)
 
                     }
                 }).onDestroy()
     }
+
+    fun getListImage(reference: DatabaseReference, auth: FirebaseAuth) {
+
+        reference.child("Images").child(auth.currentUser!!.uid)
+                .addChildEventListener(object : ChildEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                        if (check) {
+                            onWallListener.onAddImageFailed()
+                            check = false
+                        } else {
+                            onWallListener.onLoadListImageFailed()
+                        }
+                    }
+
+                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    }
+
+                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+
+                        Log.d(ProfileModel.TAG, "Ton tai$p0")
+                        val image = p0.getValue(ImageList::class.java)!!
+                        if (check) {
+                            onWallListener.onAddImageSuccess(image)
+                            check = false
+                        } else {
+                            onWallListener.onLoadListImageSuccess(image)
+                        }
+                    }
+
+                    override fun onChildRemoved(p0: DataSnapshot) {
+
+                    }
+                })
+    }
+
 }
