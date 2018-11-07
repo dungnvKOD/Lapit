@@ -136,9 +136,9 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
             }).onDestroy()
     }
 
-    fun getListImage(reference: DatabaseReference, auth: FirebaseAuth) {
+    fun getListImage(reference: DatabaseReference, uid: String) {
 
-        reference.child("Images").child(auth.currentUser!!.uid)
+        reference.child("Images").child(uid)
             .addChildEventListener(object : ChildEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 

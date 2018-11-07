@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import com.example.dung.applabit.Model.ImageList
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.StorageReference
 
 class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Context) : OnWallListener {
 
@@ -30,13 +31,20 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
      */
 
     fun getListImage(reference: DatabaseReference, uid: String) {
-//      onWallViewListener.
+        wallModel.getListImage(reference, uid)
 
     }
 
-    fun addImageList(uri: String, time: Long, boolean: Boolean) {
+    fun addImageList(
+        uri: String,
+        time: Long,
+        boolean: Boolean,
+        auth: FirebaseAuth,
+        reference: DatabaseReference,
+        storageReference: StorageReference
+    ) {
         onWallViewListener.showDialogAddImage()
-//        wallModel.addImageList(uri, time, boolean)
+        wallModel.addImageList(uri, time, boolean, auth, storageReference, reference)
     }
 
     override fun onAddImageSuccess(image: ImageList) {

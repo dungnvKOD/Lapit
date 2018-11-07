@@ -1,13 +1,16 @@
 package com.dung.lapit.main.wall
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
@@ -18,14 +21,20 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dung.lapit.App
 import com.dung.lapit.R
+import com.dung.lapit.main.profile.ProfileActivity
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.Model.User
+import com.example.dung.applabit.adapter.ProfileAdapter
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.util.MyUtils
 import com.google.firebase.auth.FirebaseAuth
@@ -35,17 +44,24 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_wall.*
 
-class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListener {
+class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListener, ProfileAdapter.OnClickItemListener {
+
 
     private lateinit var wallPrecenter: WallPrecenter
     private lateinit var dialogLoading: ProgressDialog
     private var mCurrentAnimator: Animator? = null
     private var mShortAnimationDuration: Int = 0
+
+    private lateinit var profileAdapter: ProfileAdapter
+    private var images: ArrayList<ImageList>? = ArrayList()
+
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
+
+
     private var drb: Drawable? = null
 
 
@@ -66,13 +82,14 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         wallPrecenter = WallPrecenter(this, this)
         var bundle = intent.extras
 
-
         if (bundle != null) {
             /**
              * dc goi khi click vao bottom
              */
             fabLike.visibility = View.VISIBLE
             btnSenMessage.visibility = View.VISIBLE
+            txtKhoangCach.visibility = View.VISIBLE
+
 
             val user: User = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
 
@@ -93,28 +110,81 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
                 imgTRangThai.setImageResource(R.drawable.ic_online)
             } else {
                 imgTRangThai.setImageResource(R.drawable.ic_offline)
-
             }
             imgAvatarP.setImageDrawable(App.getInsatnce().drawable)
             progressPA.visibility = View.GONE //khi truyen sang thi khong load tu server
+
+            //lay danh sach image
+            getListImage(reference, user.idUser!!)
 
             bundle = null //dat cuoi cung
         } else {
             /**
              *       dc goi khi click vao navigabottom
              */
+
+            txtKhoangCach.visibility = View.GONE
             fabLike.visibility = View.GONE
             btnSenMessage.visibility = View.GONE
             wallPrecenter.getMyInfo(reference, auth)
             getListImage(reference, auth.currentUser!!.uid)
 
+            //them icon them image
+            images!!.add(ImageList("", 0))
+
         }
 
+        val linearLayoutManager = GridLayoutManager(this, 3)
+        rcvImages.layoutManager = linearLayoutManager as RecyclerView.LayoutManager?
+        profileAdapter = ProfileAdapter(this, images!!)
+        rcvImages.adapter = profileAdapter
 
         //////// dang ky su kien
         fabLike.setOnClickListener(this)
         btnSenMessage.setOnClickListener(this)
         imgAvatarP.setOnClickListener(this)
+        profileAdapter.setOnClickItemListener(this)
+    }
+
+
+    /**
+     *      su kien ben adapter
+     *
+     */
+    override fun onClickItemZoom(drawable: Drawable, position: Int, time: Long, imgItem: View) {
+        //neu dc goi tu view khac ngoai 3 fragment thif phai xem lai daon nay
+        txtTimeListImage.text = MyUtils().convertTime(time, MyUtils.TYPE_DATE_D_M_YYYY)
+        if (App.getInsatnce().drawable != null) { //neu dc goi tu fragment thi App.getInsatnce().drawable se khac null , duoi ondestroy da gan bang null,
+            imageAvatar(App.getInsatnce().drawable, imgItem as ImageView)
+        } else {
+            imageAvatar(drb, imgItem as ImageView)
+        }
+
+    }
+
+    override fun onAddImageList() {
+        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Log.d(ProfileActivity.TAG, "da cap quyen")
+            openImage()
+        } else {
+            Log.d(ProfileActivity.TAG, "chua cap quyen")
+        }
+    }
+
+    private fun openImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, Constant.REQESS_IMAGE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constant.REQESS_IMAGE && resultCode == Activity.RESULT_OK) {
+            val uri = data!!.data
+            val timeHere = MyUtils().timeHere()
+            wallPrecenter.addImageList(uri.toString(), timeHere, true, auth, reference, storageReference)
+        }
+
     }
 
     /**
@@ -125,6 +195,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         when (v!!.id) {
             R.id.fabLike -> {
                 Toast.makeText(this@WallActivity, "Like ok ", Toast.LENGTH_SHORT).show()
+
 
             }
 
@@ -137,9 +208,9 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
                 //neu dc goi tu view khac ngoai 3 fragment thif phai xem lai daon nay
                 if (App.getInsatnce().drawable != null) { //neu dc goi tu fragment thi App.getInsatnce().drawable se khac null , duoi ondestroy da gan bang null,
-                    imageAvatar(App.getInsatnce().drawable)
+                    imageAvatar(App.getInsatnce().drawable, imgAvatarP)
                 } else {
-                    imageAvatar(drb)
+                    imageAvatar(drb, imgAvatarP)
                 }
 
             }
@@ -147,10 +218,10 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     }
 
     @SuppressLint("RestrictedApi")
-    private fun imageAvatar(drawable: Drawable?) {
+    private fun imageAvatar(drawable: Drawable?, imageView: ImageView) {
         if (drawable != null) {
             mShortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-            zoomImageFromThumb(imgAvatarP, drawable)
+            zoomImageFromThumb(imageView, drawable)
             btnSenMessage.visibility = View.GONE
             fabLike.visibility = View.GONE
 
@@ -185,7 +256,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         imgAvatarP.setImageDrawable(drawable)
         this.drb = drawable
 
-
     }
 
     override fun onLoadImageFailed() {
@@ -206,33 +276,34 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     }
 
     override fun onLoadListImageSuccess(image: ImageList) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        profileAdapter.insertImage(image)
     }
 
     override fun onLoadListImageFailed() {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun showProgressBarListImage() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         progressPA.visibility = View.VISIBLE
     }
 
     override fun hideProgressBarListImage() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         progressPA.visibility = View.GONE
     }
 
     override fun showDialogAddImage() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showProgressDialog("", "")
+
     }
 
     override fun hideDialogAddImage() {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        hideProgressDialog()
     }
 
     override fun onAddImageSuccess(image: ImageList) {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        profileAdapter.insertImage(image)
     }
 
     override fun onAddImageFailed() {

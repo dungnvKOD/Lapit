@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.ImageList
-
 import kotlinx.android.synthetic.main.item_add_image.view.*
 import kotlinx.android.synthetic.main.item_iamge_profile.view.*
 
@@ -28,7 +28,7 @@ class ProfileAdapter(val context: Context, var imageUrls: ArrayList<ImageList>) 
 
     override fun getItemViewType(position: Int): Int {
 
-        return if (position == 0) {
+        return if (position == 0 && App.getInsatnce().drawable == null) {
             Toast.makeText(context, "...", Toast.LENGTH_SHORT).show()
             ADD_IMAGE_VIEW
         } else {
@@ -83,8 +83,15 @@ class ProfileAdapter(val context: Context, var imageUrls: ArrayList<ImageList>) 
 
     //them
     fun insertImage(image: ImageList) {
-        imageUrls.add(1, image)
-        notifyItemInserted(1)
+        if (imageUrls.size == 0) {
+
+            imageUrls.add(imageUrls.size, image)
+            notifyItemInserted(imageUrls.size)
+        } else {
+            imageUrls.add(1, image)
+            notifyItemInserted(1)
+        }
+
 
     }
 
