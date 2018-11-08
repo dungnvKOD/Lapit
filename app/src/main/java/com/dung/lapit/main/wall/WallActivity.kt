@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dung.lapit.App
 import com.dung.lapit.R
+import com.dung.lapit.main.profile.ProfileActivity
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.Model.User
 import com.example.dung.applabit.adapter.ProfileAdapter
@@ -163,10 +164,10 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
     override fun onAddImageList() {
         if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Log.d("ad", "da cap quyen")
+            Log.d(ProfileActivity.TAG, "da cap quyen")
             openImage()
         } else {
-            Log.d("ad", "chua cap quyen")
+            Log.d(ProfileActivity.TAG, "chua cap quyen")
         }
     }
 

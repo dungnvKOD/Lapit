@@ -13,6 +13,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.Model.User
+import com.example.dung.applabit.main.profile.ProfileModel
 import com.example.dung.applabit.util.MyUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -73,7 +74,7 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                         "nu"
                     }
                     val viTri = hereLocation(App.getInsatnce().latitude, App.getInsatnce().longitude) + ""
-                    Log.d("sad", "$viTri ${user.latitude}  ${user.longitude}")
+                    Log.d(ProfileModel.TAG, "$viTri ${user.latitude}  ${user.longitude}")
                     onWallListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
                     loadImage(user.imageAvatarURL)
 
@@ -88,7 +89,7 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                         "nu"
                     }
                     val viTri = hereLocation(App.getInsatnce().latitude, App.getInsatnce().longitude)
-                    Log.d("sad", "$viTri ${user.latitude}  ${user.longitude}")
+                    Log.d(ProfileModel.TAG, "$viTri ${user.latitude}  ${user.longitude}")
                     onWallListener.onLoadDataSuccess(user.name!!, ngaySinh, gioiTinh, viTri)
                     loadImage(user.imageAvatarURL)
 
@@ -157,7 +158,7 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
 
                 override fun onChildAdded(p0: DataSnapshot, p1: String?) {
 
-                    Log.d("sad", "Ton tai$p0")
+                    Log.d(ProfileModel.TAG, "Ton tai$p0")
                     val image = p0.getValue(ImageList::class.java)!!
                     if (check) {
                         onWallListener.onAddImageSuccess(image)

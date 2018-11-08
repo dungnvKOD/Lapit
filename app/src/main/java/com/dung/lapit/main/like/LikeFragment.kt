@@ -23,21 +23,8 @@ class LikeFragment : Fragment() {
     }
 
     private fun init() {
-//        var count = 0
-//        val runnable = Runnable {
-//
-//
-//            while (true){
-//                count++
-//                Log.d("a", "LikeFragment" + count.toString())
-//
-//            }
-//
-//            Thread.sleep(1000)
-//
-//        }
-//        val thread = Thread(runnable)
-//        thread.start()
+
     }
+
 
 }
