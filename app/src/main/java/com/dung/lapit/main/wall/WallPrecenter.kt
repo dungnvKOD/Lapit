@@ -3,6 +3,7 @@ package com.dung.lapit.main.wall
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.example.dung.applabit.Model.ImageList
+import com.example.dung.applabit.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
@@ -16,6 +17,14 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
         onWallViewListener.showProgressBarListImage()
         onWallViewListener.showProgressBarAvatar()
 
+    }
+
+    /**
+     *  like
+     */
+
+    fun like(user: User, reference: DatabaseReference, storageReference: StorageReference) {
+        wallModel.like(user, reference, storageReference)
     }
 
     /**
@@ -36,12 +45,12 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
     }
 
     fun addImageList(
-        uri: String,
-        time: Long,
-        boolean: Boolean,
-        auth: FirebaseAuth,
-        reference: DatabaseReference,
-        storageReference: StorageReference
+            uri: String,
+            time: Long,
+            boolean: Boolean,
+            auth: FirebaseAuth,
+            reference: DatabaseReference,
+            storageReference: StorageReference
     ) {
         onWallViewListener.showDialogAddImage()
         wallModel.addImageList(uri, time, boolean, auth, storageReference, reference)
@@ -55,6 +64,18 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
     override fun onAddImageFailed() {
         onWallViewListener.hideDialogAddImage()
 
+    }
+
+    /**
+     *  like callback
+     */
+
+    override fun isLikeCallBack() {
+        onWallViewListener.isLikeCallBack()
+    }
+
+    override fun isUnLikeCallBack() {
+        onWallViewListener.isUnLikeCallBack()
     }
 
     /**

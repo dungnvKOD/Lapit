@@ -75,11 +75,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                     }
                 }
             })
-
-
         }
-
-
     }
 
     fun insertItem(user: User) {

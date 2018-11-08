@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.User
 import com.example.dung.applabit.loginandregister.login.LoginFragment
-import com.example.dung.applabit.main.findfriend.FindFriendFragment
 
 class LoginAndRegisterActivity : AppCompatActivity() {
 
