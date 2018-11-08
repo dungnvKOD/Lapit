@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.dung.lapit.App
 import com.dung.lapit.R
-import com.dung.lapit.main.profile.ProfileActivity
 import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.main.findfriend.FindFriendFragment
 import com.example.dung.applabit.main.friend.FriendFragment

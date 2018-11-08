@@ -12,7 +12,6 @@ import com.dung.lapit.App
 import com.dung.lapit.R
 import com.dung.lapit.adapter.FrindFriendAdapter
 import com.example.dung.applabit.Model.User
-import com.dung.lapit.main.profile.ProfileActivity
 import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.conmon.Constant
 import kotlinx.android.synthetic.main.fragment_find_friend.*
