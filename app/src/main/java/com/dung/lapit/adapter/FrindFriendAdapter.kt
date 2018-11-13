@@ -17,10 +17,15 @@ import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.item_find_friend.view.*
 
 class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var reference = FirebaseDatabase.getInstance().reference
+    private var auth = FirebaseAuth.getInstance()
 
     companion object {
         const val TAG = "FrindFriendAdapter"
@@ -51,6 +56,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                 App.getInsatnce().longitude
             )
 
+            getLike(reference, user, auth, holder.imgLike)
             if (user.status) {
                 Log.d(TAG, "online")
                 holder.imgOnOff.setImageResource(R.drawable.ic_online)
@@ -110,9 +116,41 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
 
     interface OnCliclItemListener {
         fun onClickItem(user: User, drawable: Drawable)
+
     }
 
     fun setOnClickItemListener(onCliclItemListener: OnCliclItemListener) {
         this.onCliclItemListener = onCliclItemListener
     }
+
+    fun getLike(reference: DatabaseReference, user: User, auth: FirebaseAuth, imageView: ImageView) {
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (App.getInsatnce().isGender) {
+                    if (p0.child("UsersFemale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
+                        imageView.setImageResource(R.drawable.ic_like)
+                        Log.d(TAG, " like")
+
+                    } else {
+                        Log.d(TAG, "un like")
+                        imageView.setImageResource(R.drawable.ic_un_like)
+                    }
+                } else {
+                    if (p0.child("UsersMale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
+                        imageView.setImageResource(R.drawable.ic_like)
+                    } else {
+                        imageView.setImageResource(R.drawable.ic_un_like)
+                    }
+                }
+
+            }
+        })
+
+    }
+
 }

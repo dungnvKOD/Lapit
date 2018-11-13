@@ -1,6 +1,5 @@
 package com.dung.lapit.main.findfriend
 
-
 import android.util.Log
 import com.dung.lapit.App
 import com.example.dung.applabit.Model.User

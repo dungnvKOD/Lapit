@@ -12,6 +12,8 @@ class User : Serializable {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var status: Boolean = false
+//    var like: Boolean = false
+//    var visit: Boolean = false
 
     constructor()
 
@@ -26,6 +28,8 @@ class User : Serializable {
         latitude: Double,
         longitude: Double,
         status: Boolean
+
+
     ) {
         this.idUser = idUser
         this.name = name
@@ -39,6 +43,56 @@ class User : Serializable {
     }
 
 
+//    constructor(
+//        idUser: String?,
+//        name: String?,
+//        ngaySinh: Long,
+//        imageAvatarURL: String?,
+//        discribe: String?,
+//        gioiTinh: Boolean,
+//        latitude: Double,
+//        longitude: Double,
+//        status: Boolean,
+//        like: Boolean
+//    ) {
+//        this.idUser = idUser
+//        this.name = name
+//        this.ngaySinh = ngaySinh
+//        this.imageAvatarURL = imageAvatarURL
+//        this.discribe = discribe
+//        this.gioiTinh = gioiTinh
+//        this.latitude = latitude
+//        this.longitude = longitude
+//        this.status = status
+//        this.like = like
+//    }
+
+//    constructor(
+//        idUser: String?,
+//        name: String?,
+//        ngaySinh: Long,
+//        imageAvatarURL: String?,
+//        discribe: String?,
+//        gioiTinh: Boolean,
+//        latitude: Double,
+//        longitude: Double,
+//        status: Boolean,
+//        like: Boolean,
+//        visit: Boolean
+//    ) {
+//        this.idUser = idUser
+//        this.name = name
+//        this.ngaySinh = ngaySinh
+//        this.imageAvatarURL = imageAvatarURL
+//        this.discribe = discribe
+//        this.gioiTinh = gioiTinh
+//        this.latitude = latitude
+//        this.longitude = longitude
+//        this.status = status
+//        this.like = like
+//        this.visit = visit
+//    }
+
 
     /**
      *  tinh khoang cach a = sin² (Δφ / 2) + cos φ 1 ⋅ cos φ 2 ⋅ sin² (Δλ / 2)
@@ -47,7 +101,7 @@ class User : Serializable {
      *  φ là vĩ độ, λ là kinh độ, R là bán kính của trái đất (bán kính trung bình = 6,371km);
      *
      */
-     fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): String {
+    fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): String {
         val theta = lon1 - lon2
         var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + (Math.cos(deg2rad(lat1))
                 * Math.cos(deg2rad(lat2))
@@ -55,7 +109,7 @@ class User : Serializable {
         dist = Math.acos(dist)
         dist = rad2deg(dist)
         dist *= 60.0 * 1.1515
-        return  "%.1f".format(dist) +"km"
+        return "%.1f".format(dist) + "km"
     }
 
     private fun deg2rad(deg: Double): Double {
