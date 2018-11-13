@@ -1,9 +1,10 @@
-package com.example.dung.applabit.main.findfriend
+package com.dung.lapit.main.findfriend
 
 
 import android.util.Log
 import com.dung.lapit.App
 import com.example.dung.applabit.Model.User
+import com.example.dung.applabit.main.findfriend.OnFindFriendListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -47,14 +48,12 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
                     onFindFriendListener.getFriendSuccess(user)
                     Log.d(TAG, user.name + "...")
 
-
                 }
 
                 override fun onChildRemoved(p0: DataSnapshot) {
 
                 }
             })
-
 
         } else {
             reference.child("UsersMale").addChildEventListener(object : ChildEventListener {
@@ -71,14 +70,12 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
                     onFindFriendListener.updateFriendSuccess(user)
                     Log.d(TAG, user.name + "...")
 
-
                 }
 
                 override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                     val user: User = p0.getValue(User::class.java)!!
                     onFindFriendListener.getFriendSuccess(user)
                     Log.d(TAG, user.name + "...")
-
 
                 }
 

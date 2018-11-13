@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dung.lapit.App
 import com.dung.lapit.R
-import com.dung.lapit.main.profile.ProfileActivity
 import com.example.dung.applabit.Model.ImageList
 import com.example.dung.applabit.Model.User
 import com.example.dung.applabit.adapter.ProfileAdapter
@@ -46,6 +45,9 @@ import kotlinx.android.synthetic.main.activity_wall.*
 
 class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListener, ProfileAdapter.OnClickItemListener {
 
+    companion object {
+        const val TAG = "WallActivity"
+    }
 
     private lateinit var wallPrecenter: WallPrecenter
     private lateinit var dialogLoading: ProgressDialog
@@ -54,6 +56,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
     private lateinit var profileAdapter: ProfileAdapter
     private var images: ArrayList<ImageList>? = ArrayList()
+    private var user: User? = User()
 
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
@@ -61,9 +64,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
 
-
     private var drb: Drawable? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,21 +92,21 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             txtKhoangCach.visibility = View.VISIBLE
 
 
-            val user: User = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
+            user = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
 
-            txtName.text = user.name
-            txtDiaChi.text = MyUtils().hereLocation(user.latitude, user.longitude, this)
-            txtNamSinh.text = MyUtils().convertTime(user.ngaySinh, MyUtils.TYPE_DATE_D_M_YYYY)
+            txtName.text = user!!.name
+            txtDiaChi.text = MyUtils().hereLocation(user!!.latitude, user!!.longitude, this)
+            txtNamSinh.text = MyUtils().convertTime(user!!.ngaySinh, MyUtils.TYPE_DATE_D_M_YYYY)
             val km = "%.1f".format(
                 MyUtils().distance(
-                    user.latitude,
-                    user.longitude,
+                    user!!.latitude,
+                    user!!.longitude,
                     App.getInsatnce().latitude,
                     App.getInsatnce().longitude
                 )
             )
             txtKhoangCach.text = "$km Km"
-            if (user.status) {
+            if (user!!.status) {
 
                 imgTRangThai.setImageResource(R.drawable.ic_online)
             } else {
@@ -115,7 +116,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             progressPA.visibility = View.GONE //khi truyen sang thi khong load tu server
 
             //lay danh sach image
-            getListImage(reference, user.idUser!!)
+            getListImage(reference, user!!.idUser!!)
 
             bundle = null //dat cuoi cung
         } else {
@@ -146,6 +147,20 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         profileAdapter.setOnClickItemListener(this)
     }
 
+    /**
+     *  like callback
+     *
+     */
+
+    override fun isLikeCallBack() {
+        fabLike.setImageResource(R.drawable.ic_like)
+    }
+
+    override fun isUnLikeCallBack() {
+        fabLike.setImageResource(R.drawable.ic_un_like)
+
+    }
+
 
     /**
      *      su kien ben adapter
@@ -157,17 +172,17 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         if (App.getInsatnce().drawable != null) { //neu dc goi tu fragment thi App.getInsatnce().drawable se khac null , duoi ondestroy da gan bang null,
             imageAvatar(App.getInsatnce().drawable, imgItem as ImageView)
         } else {
-            imageAvatar(drb, imgItem as ImageView)
+            imageAvatar(drawable, imgItem as ImageView)
         }
 
     }
 
     override fun onAddImageList() {
         if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Log.d(ProfileActivity.TAG, "da cap quyen")
+            Log.d(TAG, "da cap quyen")
             openImage()
         } else {
-            Log.d(ProfileActivity.TAG, "chua cap quyen")
+            Log.d(TAG, "chua cap quyen")
         }
     }
 
@@ -195,7 +210,10 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         when (v!!.id) {
             R.id.fabLike -> {
                 Toast.makeText(this@WallActivity, "Like ok ", Toast.LENGTH_SHORT).show()
+                if (user != null) {
 
+                    wallPrecenter.like(user!!, reference, storageReference)
+                }
 
             }
 
@@ -302,7 +320,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     }
 
     override fun onAddImageSuccess(image: ImageList) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         profileAdapter.insertImage(image)
     }
 

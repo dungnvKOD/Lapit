@@ -70,7 +70,6 @@ class ProfileAdapter(val context: Context, var imageUrls: ArrayList<ImageList>) 
                     }
                 })
 
-
         } else if (holder is AddImageViewHolder) {
             //todo
             holder.btnAddImage.visibility = View.VISIBLE
@@ -91,10 +90,7 @@ class ProfileAdapter(val context: Context, var imageUrls: ArrayList<ImageList>) 
             imageUrls.add(1, image)
             notifyItemInserted(1)
         }
-
-
     }
-
     //
     fun notifidataChange(images: ArrayList<ImageList>) {
         this.imageUrls = images
@@ -115,7 +111,6 @@ class ProfileAdapter(val context: Context, var imageUrls: ArrayList<ImageList>) 
     }
 
     inner class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         val imgItem: ImageView = view.imageProfile
     }
 }

@@ -1,4 +1,4 @@
-package com.example.dung.applabit.main.findfriend
+package com.dung.lapit.main.findfriend
 
 import com.example.dung.applabit.Model.User
 

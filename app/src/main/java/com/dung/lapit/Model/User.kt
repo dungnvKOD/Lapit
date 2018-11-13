@@ -39,4 +39,31 @@ class User : Serializable {
     }
 
 
+
+    /**
+     *  tinh khoang cach a = sin² (Δφ / 2) + cos φ 1 ⋅ cos φ 2 ⋅ sin² (Δλ / 2)
+     *  c = 2 ⋅ atan2 (√ a , √ (1 − a) )
+     *  d = R ⋅ c
+     *  φ là vĩ độ, λ là kinh độ, R là bán kính của trái đất (bán kính trung bình = 6,371km);
+     *
+     */
+     fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): String {
+        val theta = lon1 - lon2
+        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + (Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta)))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist *= 60.0 * 1.1515
+        return  "%.1f".format(dist) +"km"
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+    }
+
 }

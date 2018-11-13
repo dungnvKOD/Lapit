@@ -15,7 +15,6 @@ import com.example.dung.applabit.Model.User
 import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.main.findfriend.FindFriendPresenter
-import com.example.dung.applabit.main.findfriend.OnFindFriendViewListenr
 import kotlinx.android.synthetic.main.fragment_find_friend.*
 
 class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapter.OnCliclItemListener {

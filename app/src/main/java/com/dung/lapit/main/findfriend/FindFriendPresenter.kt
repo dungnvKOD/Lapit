@@ -1,5 +1,7 @@
 package com.example.dung.applabit.main.findfriend
 
+import com.dung.lapit.main.findfriend.FindFriendModel
+import com.dung.lapit.main.findfriend.OnFindFriendViewListenr
 import com.example.dung.applabit.Model.User
 
 
