@@ -11,7 +11,6 @@ import com.google.firebase.storage.StorageReference
 
 class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Context) : OnWallListener {
 
-
     private val wallModel: WallModel = WallModel(context, this)
 
     init {
@@ -93,7 +92,6 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
         onWallViewListener.onLoadListImageFailed()
         onWallViewListener.hideProgressBarListImage()
     }
-
 
     override fun onLoadImageSuccess(drawable: Drawable?) {
         onWallViewListener.hideProgressBarAvatar()

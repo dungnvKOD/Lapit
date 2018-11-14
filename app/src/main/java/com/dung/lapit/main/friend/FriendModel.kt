@@ -5,8 +5,5 @@ class FriendModel {
     fun getDataLike() {
 
 
-
     }
-
-
 }
