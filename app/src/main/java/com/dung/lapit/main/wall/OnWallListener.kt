@@ -17,7 +17,7 @@ interface OnWallListener {
     fun onAddImageSuccess(image: ImageList)
     fun onAddImageFailed()
 
-    fun isLikeCallBack()
-    fun isUnLikeCallBack()
+    fun isLikeCallBack(boolean: Boolean)
+    fun isUnLikeCallBack(boolean: Boolean)
 
 }

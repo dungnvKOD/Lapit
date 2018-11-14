@@ -57,6 +57,8 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     private lateinit var profileAdapter: ProfileAdapter
     private var images: ArrayList<ImageList>? = ArrayList()
     private var user: User? = User()
+    private var myUser: User? = User()
+    private var isLike: Boolean = false
 
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
@@ -93,6 +95,11 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 
 
             user = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
+            /**
+             *     like
+             */
+
+            isLike = bundle.getBoolean(Constant.KEY_PUT_ISLIKE)
 
             txtName.text = user!!.name
             txtDiaChi.text = MyUtils().hereLocation(user!!.latitude, user!!.longitude, this)
@@ -105,6 +112,14 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
                     App.getInsatnce().longitude
                 )
             )
+
+            //check like ban dau
+            if (isLike) {
+                fabLike.setImageResource(R.drawable.ic_like)
+            } else {
+                fabLike.setImageResource(R.drawable.ic_un_like)
+            }
+
             txtKhoangCach.text = "$km Km"
             if (user!!.status) {
 
@@ -152,12 +167,14 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
      *
      */
 
-    override fun isLikeCallBack() {
-        fabLike.setImageResource(R.drawable.ic_like)
+    override fun isLikeCallBack(boolean: Boolean) {
+//        fabLike.setImageResource(R.drawable.ic_like)
+        isLike = boolean
     }
 
-    override fun isUnLikeCallBack() {
-        fabLike.setImageResource(R.drawable.ic_un_like)
+    override fun isUnLikeCallBack(boolean: Boolean) {
+//        fabLike.setImageResource(R.drawable.ic_un_like)
+        isLike = boolean
 
     }
 
@@ -211,8 +228,8 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             R.id.fabLike -> {
                 Toast.makeText(this@WallActivity, "Like ok ", Toast.LENGTH_SHORT).show()
                 if (user != null) {
-
-                    wallPrecenter.like(user!!, reference, storageReference)
+                    App.getInsatnce().isLike = isLike
+                    wallPrecenter.like(user!!, reference, fabLike, isLike)
                 }
 
             }

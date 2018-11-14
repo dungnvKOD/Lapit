@@ -23,9 +23,8 @@ import kotlinx.android.synthetic.main.item_find_friend.view.*
 
 class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var reference = FirebaseDatabase.getInstance().reference
-    private var auth = FirebaseAuth.getInstance()
+    private val reference = FirebaseDatabase.getInstance().reference
+    private val auth = FirebaseAuth.getInstance()
 
     companion object {
         const val TAG = "FrindFriendAdapter"
@@ -45,6 +44,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         val user = users[position]
         if (holder is ItemViewHolder) {
             holder.txtName.text = user.name
@@ -56,7 +56,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                 App.getInsatnce().longitude
             )
 
-            getLike(reference, user, auth, holder.imgLike)
+
             if (user.status) {
                 Log.d(TAG, "online")
                 holder.imgOnOff.setImageResource(R.drawable.ic_online)
@@ -66,16 +66,60 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                 holder.imgOnOff.setImageResource(R.drawable.ic_offline)
 
             }
-            Glide.with(context).load(user.imageAvatarURL).into(object : SimpleTarget<Drawable>(200, 200) {
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
 
-                    holder.imgBackground.setImageDrawable(resource)
-                    holder.itemView.setOnClickListener {
-                        onCliclItemListener.onClickItem(user, resource)
+            reference.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (App.getInsatnce().isGender) {
+                        if (p0.child("UsersFemale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
+                            //like true
+                            holder.imgLike.setImageResource(R.drawable.ic_like)
+                            Log.d(FrindFriendAdapter.TAG, " like")
+                            getImage(holder.imgBackground, holder.itemView, user, true)
+
+                        } else {
+                            //un like false
+                            Log.d(FrindFriendAdapter.TAG, "un like")
+                            holder.imgLike.setImageResource(R.drawable.ic_un_like)
+                            getImage(holder.imgBackground, holder.itemView, user, false)
+
+                        }
+                    } else {
+                        if (p0.child("UsersMale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
+                            //like true
+                            holder.imgLike.setImageResource(R.drawable.ic_like)
+                            getImage(holder.imgBackground, holder.itemView, user, true)
+                        } else {
+                            //un like false
+                            holder.imgLike.setImageResource(R.drawable.ic_un_like)
+                            getImage(holder.imgBackground, holder.itemView, user, false)
+
+                        }
                     }
+
                 }
             })
+
+
         }
+    }
+
+    private fun getImage(imgBackground: ImageView, view: View, user: User, boolean: Boolean) {
+
+        Glide.with(context).load(user.imageAvatarURL).into(object : SimpleTarget<Drawable>(200, 200) {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+
+                imgBackground.setImageDrawable(resource)
+                view.setOnClickListener {
+                    onCliclItemListener.onClickItem(user, resource, boolean)
+                }
+            }
+        })
+
     }
 
     fun insertItem(user: User) {
@@ -115,7 +159,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
      */
 
     interface OnCliclItemListener {
-        fun onClickItem(user: User, drawable: Drawable)
+        fun onClickItem(user: User, drawable: Drawable, boolean: Boolean)
 
     }
 
@@ -123,34 +167,5 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
         this.onCliclItemListener = onCliclItemListener
     }
 
-    fun getLike(reference: DatabaseReference, user: User, auth: FirebaseAuth, imageView: ImageView) {
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if (App.getInsatnce().isGender) {
-                    if (p0.child("UsersFemale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
-                        imageView.setImageResource(R.drawable.ic_like)
-                        Log.d(TAG, " like")
-
-                    } else {
-                        Log.d(TAG, "un like")
-                        imageView.setImageResource(R.drawable.ic_un_like)
-                    }
-                } else {
-                    if (p0.child("UsersMale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
-                        imageView.setImageResource(R.drawable.ic_like)
-                    } else {
-                        imageView.setImageResource(R.drawable.ic_un_like)
-                    }
-                }
-
-            }
-        })
-
-    }
 
 }

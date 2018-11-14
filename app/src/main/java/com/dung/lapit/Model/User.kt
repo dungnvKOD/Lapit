@@ -1,8 +1,16 @@
 package com.example.dung.applabit.Model
 
+import android.util.Log
+import android.widget.ImageView
+import com.dung.lapit.App
+import com.dung.lapit.R
+import com.dung.lapit.adapter.FrindFriendAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import java.io.Serializable
 
 class User : Serializable {
+
     var idUser: String? = null
     var name: String? = null
     var ngaySinh: Long = -1
@@ -14,6 +22,9 @@ class User : Serializable {
     var status: Boolean = false
 //    var like: Boolean = false
 //    var visit: Boolean = false
+
+
+
 
     constructor()
 
@@ -92,6 +103,8 @@ class User : Serializable {
 //        this.like = like
 //        this.visit = visit
 //    }
+
+
 
 
     /**

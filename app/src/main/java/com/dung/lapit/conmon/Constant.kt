@@ -12,6 +12,7 @@ object Constant {
     // key
     val EMAIL_TYPE = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     val KEY_PUT_INTEN_USER = "friend_user"
+    val KEY_PUT_ISLIKE = "KEY_PUT_ISLIKE"
 
 
     //permisstion

@@ -9,6 +9,7 @@ public class App extends Application {
     private double longitude;
     private boolean gender;
     private Drawable drawable;
+    private boolean isLike;
 
     private static App insatnce;
 
@@ -55,5 +56,13 @@ public class App extends Application {
 
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
     }
 }

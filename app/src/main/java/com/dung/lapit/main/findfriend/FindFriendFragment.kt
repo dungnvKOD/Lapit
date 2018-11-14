@@ -59,10 +59,11 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
     }
 
 
-    override fun onClickItem(user: User, drawable: Drawable) {
+    override fun onClickItem(user: User, drawable: Drawable, boolean: Boolean) {
         val intent = Intent(activity!!, WallActivity::class.java)
         val bundle = Bundle()
         App.getInsatnce().drawable = drawable
+        bundle.putBoolean(Constant.KEY_PUT_ISLIKE, boolean)
         bundle.putSerializable(Constant.KEY_PUT_INTEN_USER, user)
         intent.putExtras(bundle)
         startActivity(intent)

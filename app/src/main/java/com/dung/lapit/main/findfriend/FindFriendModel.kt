@@ -38,14 +38,14 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
                 override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                     val user: User = p0.getValue(User::class.java)!!
                     onFindFriendListener.updateFriendSuccess(user)
-                    Log.d(TAG, user.name + "...")
+                    Log.d(TAG, user.name + "update ...")
 
                 }
 
                 override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                     val user: User = p0.getValue(User::class.java)!!
                     onFindFriendListener.getFriendSuccess(user)
-                    Log.d(TAG, user.name + "...")
+                    Log.d(TAG, user.name + "them...")
 
                 }
 
@@ -67,14 +67,14 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
                 override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                     val user: User = p0.getValue(User::class.java)!!
                     onFindFriendListener.updateFriendSuccess(user)
-                    Log.d(TAG, user.name + "...")
+                    Log.d(TAG, user.name + "update...")
 
                 }
 
                 override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                     val user: User = p0.getValue(User::class.java)!!
                     onFindFriendListener.getFriendSuccess(user)
-                    Log.d(TAG, user.name + "...")
+                    Log.d(TAG, user.name + "them...")
 
                 }
 
