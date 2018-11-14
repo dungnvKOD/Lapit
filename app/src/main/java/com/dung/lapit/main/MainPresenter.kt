@@ -1,8 +1,10 @@
 package com.dung.lapit.main
 
-class MainPresenter {
+import android.content.Context
 
-    private val mainModel = MainModel()
+class MainPresenter(context: Context) {
+
+    private val mainModel = MainModel(context)
     fun insertStatus(boolean: Boolean) {
         mainModel.insertStatus(boolean)
     }

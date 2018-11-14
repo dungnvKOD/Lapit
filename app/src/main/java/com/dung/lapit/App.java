@@ -2,6 +2,7 @@ package com.dung.lapit;
 
 import android.app.Application;
 import android.graphics.drawable.Drawable;
+import com.example.dung.applabit.Model.User;
 
 public class App extends Application {
 
@@ -10,6 +11,7 @@ public class App extends Application {
     private boolean gender;
     private Drawable drawable;
     private boolean isLike;
+    private User user;
 
     private static App insatnce;
 
@@ -24,6 +26,14 @@ public class App extends Application {
             insatnce = new App();
         }
         return insatnce;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean isGender() {

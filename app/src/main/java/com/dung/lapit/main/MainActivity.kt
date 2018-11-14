@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainPresenter = MainPresenter()
+        mainPresenter = MainPresenter(this)
         mainPresenter.insertStatus(true)
 
         init()

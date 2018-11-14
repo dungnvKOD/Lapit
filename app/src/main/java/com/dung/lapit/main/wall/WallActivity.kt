@@ -170,11 +170,14 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     override fun isLikeCallBack(boolean: Boolean) {
 //        fabLike.setImageResource(R.drawable.ic_like)
         isLike = boolean
+        Log.d(TAG,"like...")
     }
 
     override fun isUnLikeCallBack(boolean: Boolean) {
 //        fabLike.setImageResource(R.drawable.ic_un_like)
         isLike = boolean
+        Log.d(TAG,"un like ...")
+
 
     }
 

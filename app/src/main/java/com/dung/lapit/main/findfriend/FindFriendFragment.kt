@@ -63,6 +63,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
         val intent = Intent(activity!!, WallActivity::class.java)
         val bundle = Bundle()
         App.getInsatnce().drawable = drawable
+        App.getInsatnce().isLike = boolean
         bundle.putBoolean(Constant.KEY_PUT_ISLIKE, boolean)
         bundle.putSerializable(Constant.KEY_PUT_INTEN_USER, user)
         intent.putExtras(bundle)

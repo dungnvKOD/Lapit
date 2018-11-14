@@ -69,13 +69,15 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
     fun like(user: User, reference: DatabaseReference, image: ImageView, isLike: Boolean) {
 
         Log.d(TAG, "lai vao day....")
-        val id: String = user.idUser!!
+        val myId: String = user.idUser!!
+        val friendId: String = App.getInsatnce().user.idUser!!
         if (App.getInsatnce().isGender) {
+
             if (!App.getInsatnce().isLike) {
 
                 val hashMap: HashMap<String, Any> = HashMap()
-                hashMap[id] = user
-                reference.child("UsersFemale").child(id).child("like").updateChildren(hashMap).addOnSuccessListener {
+                hashMap[friendId] = user
+                reference.child("UsersFemale").child(myId).child("like").updateChildren(hashMap).addOnSuccessListener {
                     //TODO callback
                     image.setImageResource(R.drawable.ic_like)
                     App.getInsatnce().isLike = true
@@ -83,10 +85,9 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                     Log.d(TAG, "like....")
 
                 }
-
-
             } else {
-                reference.child("UsersFemale").child(id).child("like").child(user.idUser!!).setValue(null)
+                reference.child("UsersFemale").child(myId).child("like").child(App.getInsatnce().user.idUser!!)
+                    .setValue(null)
                     .addOnSuccessListener {
 
                         image.setImageResource(R.drawable.ic_un_like)
@@ -103,8 +104,8 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
 
             if (!App.getInsatnce().isLike) {
                 val hashMap: HashMap<String, Any> = HashMap()
-                hashMap[id] = user
-                reference.child("UsersMale").child(id).child("like").updateChildren(hashMap).addOnSuccessListener {
+                hashMap[friendId] = user
+                reference.child("UsersMale").child(myId).child("like").updateChildren(hashMap).addOnSuccessListener {
 
                     //TODO callback
                     image.setImageResource(R.drawable.ic_like)
@@ -115,14 +116,13 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
 
             } else {
                 //TODO callback
-                reference.child("UsersMale").child(id).child("like").child(user.idUser!!).setValue(null)
+                reference.child("UsersMale").child(myId).child("like").child(App.getInsatnce().user.idUser!!)
+                    .setValue(null)
                     .addOnSuccessListener {
                         image.setImageResource(R.drawable.ic_un_like)
                         App.getInsatnce().isLike = false
                         onWallListener.isUnLikeCallBack(false)
-
                     }
-
             }
         }
     }
@@ -146,9 +146,6 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                     } else {
                         "nu"
                     }
-
-
-//                    if (p0.child("UsersMale").child(auth.currentUser!!.uid).child("like").child())
 
                     val viTri = hereLocation(App.getInsatnce().latitude, App.getInsatnce().longitude) + ""
                     Log.d(TAG, "$viTri ${user.latitude}  ${user.longitude}")
