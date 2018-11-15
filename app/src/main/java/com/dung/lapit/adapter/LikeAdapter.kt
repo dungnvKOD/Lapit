@@ -257,6 +257,4 @@ class LikeAdapter(val context: Context, var users: ArrayList<User>) : RecyclerVi
     fun setOnClickItemListener(onCliclItemListener: OnCliclItemListener) {
         this.onCliclItemListener = onCliclItemListener
     }
-
-
 }

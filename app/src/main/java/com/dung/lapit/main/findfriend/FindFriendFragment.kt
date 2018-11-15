@@ -69,6 +69,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
         intent.putExtras(bundle)
         startActivity(intent)
 
+
     }
 
     override fun getFriendSuccess(users: User) {

@@ -44,6 +44,10 @@ class WallPrecenter(val onWallViewListener: OnWallViewListener, val context: Con
 
     }
 
+    fun visit(friendUser: User, auth: FirebaseAuth, reference: DatabaseReference) {
+        wallModel.visit(friendUser, auth, reference)
+    }
+
     fun addImageList(
         uri: String,
         time: Long,

@@ -16,7 +16,6 @@ class FindFriendPresenter(private val onFindFriendViewListenr: OnFindFriendViewL
         onFindFriendViewListenr.showProgressBar()
     }
 
-
     override fun getFriendSuccess(users: User) {
         onFindFriendViewListenr.getFriendSuccess(users)
         onFindFriendViewListenr.hideProgressBar()

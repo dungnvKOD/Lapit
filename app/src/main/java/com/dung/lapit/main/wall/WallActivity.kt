@@ -98,8 +98,13 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             /**
              *     like
              */
-
             isLike = bundle.getBoolean(Constant.KEY_PUT_ISLIKE)
+            /**
+             *  visit
+             */
+
+            wallPrecenter.visit(user!!, auth, reference)
+
 
             txtName.text = user!!.name
             txtDiaChi.text = MyUtils().hereLocation(user!!.latitude, user!!.longitude, this)
@@ -170,13 +175,13 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     override fun isLikeCallBack(boolean: Boolean) {
 //        fabLike.setImageResource(R.drawable.ic_like)
         isLike = boolean
-        Log.d(TAG,"like...")
+        Log.d(TAG, "like...")
     }
 
     override fun isUnLikeCallBack(boolean: Boolean) {
 //        fabLike.setImageResource(R.drawable.ic_un_like)
         isLike = boolean
-        Log.d(TAG,"un like ...")
+        Log.d(TAG, "un like ...")
 
 
     }

@@ -32,12 +32,12 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
     private var check = false
 
     fun addImageList(
-            uri: String,
-            time: Long,
-            check: Boolean,
-            auth: FirebaseAuth,
-            str: StorageReference,
-            reference: DatabaseReference
+        uri: String,
+        time: Long,
+        check: Boolean,
+        auth: FirebaseAuth,
+        str: StorageReference,
+        reference: DatabaseReference
 
     ) {
 
@@ -52,11 +52,11 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                     hashMap["url"] = uri.toString()
                     hashMap["time"] = time
                     reference.child("Images").child(auth.currentUser!!.uid).child(nameFile).setValue(hashMap)
-                            .addOnSuccessListener { void: Void? ->
+                        .addOnSuccessListener { void: Void? ->
 
-                            }.addOnFailureListener { exception: Exception ->
+                        }.addOnFailureListener { exception: Exception ->
 
-                            }
+                        }
                 }
             }
         }
@@ -87,15 +87,15 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
                 }
             } else {
                 reference.child("UsersFemale").child(myId).child("like").child(App.getInsatnce().user.idUser!!)
-                        .setValue(null)
-                        .addOnSuccessListener {
+                    .setValue(null)
+                    .addOnSuccessListener {
 
-                            image.setImageResource(R.drawable.ic_un_like)
-                            App.getInsatnce().isLike = false
-                            onWallListener.isUnLikeCallBack(false)
+                        image.setImageResource(R.drawable.ic_un_like)
+                        App.getInsatnce().isLike = false
+                        onWallListener.isUnLikeCallBack(false)
 //                user.getLike(user, image)
-                            Log.d(TAG, "un like....")
-                        }
+                        Log.d(TAG, "un like....")
+                    }
 
 
             }
@@ -117,12 +117,12 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
             } else {
                 //TODO callback
                 reference.child("UsersMale").child(myId).child("like").child(App.getInsatnce().user.idUser!!)
-                        .setValue(null)
-                        .addOnSuccessListener {
-                            image.setImageResource(R.drawable.ic_un_like)
-                            App.getInsatnce().isLike = false
-                            onWallListener.isUnLikeCallBack(false)
-                        }
+                    .setValue(null)
+                    .addOnSuccessListener {
+                        image.setImageResource(R.drawable.ic_un_like)
+                        App.getInsatnce().isLike = false
+                        onWallListener.isUnLikeCallBack(false)
+                    }
             }
         }
     }
@@ -199,48 +199,63 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
             return
         }
         Glide.with(context)
-                .load(Uri.parse(url)).into(object : SimpleTarget<Drawable>() {
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        onWallListener.onLoadImageSuccess(resource)
-                    }
-                }).onDestroy()
+            .load(Uri.parse(url)).into(object : SimpleTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    onWallListener.onLoadImageSuccess(resource)
+                }
+            }).onDestroy()
     }
 
     fun getListImage(reference: DatabaseReference, uid: String) {
 
         reference.child("Images").child(uid)
-                .addChildEventListener(object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
+            .addChildEventListener(object : ChildEventListener {
+                override fun onCancelled(p0: DatabaseError) {
 
-                        if (check) {
-                            onWallListener.onAddImageFailed()
-                            check = false
-                        } else {
-                            onWallListener.onLoadListImageFailed()
-                        }
+                    if (check) {
+                        onWallListener.onAddImageFailed()
+                        check = false
+                    } else {
+                        onWallListener.onLoadListImageFailed()
                     }
+                }
 
-                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                }
+
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                }
+
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+
+                    Log.d(TAG, "Ton tai$p0")
+                    val image = p0.getValue(ImageList::class.java)!!
+                    if (check) {
+                        onWallListener.onAddImageSuccess(image)
+                        check = false
+                    } else {
+                        onWallListener.onLoadListImageSuccess(image)
                     }
+                }
 
-                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    }
+                override fun onChildRemoved(p0: DataSnapshot) {
+                }
+            })
+    }
 
-                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
 
-                        Log.d(TAG, "Ton tai$p0")
-                        val image = p0.getValue(ImageList::class.java)!!
-                        if (check) {
-                            onWallListener.onAddImageSuccess(image)
-                            check = false
-                        } else {
-                            onWallListener.onLoadListImageSuccess(image)
-                        }
-                    }
+    fun visit(friendUser: User, auth: FirebaseAuth, reference: DatabaseReference) {
 
-                    override fun onChildRemoved(p0: DataSnapshot) {
-                    }
-                })
+        val hashMap: HashMap<String, Any> = HashMap()
+        val id = auth.currentUser!!.uid
+        hashMap[id] = MyUtils().timeHere()
+
+        reference.child("UsersFemale").child(friendUser.idUser!!).child("visit").updateChildren(hashMap)
+            .addOnSuccessListener {
+
+
+            }
+
     }
 
 }

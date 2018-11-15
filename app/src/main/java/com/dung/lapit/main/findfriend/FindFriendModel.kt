@@ -4,6 +4,7 @@ import android.util.Log
 import com.dung.lapit.App
 import com.dung.lapit.Model.User
 import com.example.dung.applabit.main.findfriend.OnFindFriendListener
+import com.example.dung.applabit.util.MyUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -84,4 +85,5 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
             })
         }
     }
+
 }
