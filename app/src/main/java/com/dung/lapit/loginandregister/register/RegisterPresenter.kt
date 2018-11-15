@@ -1,6 +1,6 @@
 package com.example.dung.applabit.loginandregister.register
 
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 
 
 class RegisterPresenter(private var onRegisterViewListener: OnRegisterViewListener?) : OnRegisterListener {

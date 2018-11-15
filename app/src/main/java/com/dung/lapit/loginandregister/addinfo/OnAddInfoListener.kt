@@ -1,6 +1,6 @@
 package com.example.dung.applabit.loginandregister.addinfo
 
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 
 interface OnAddInfoListener {
 

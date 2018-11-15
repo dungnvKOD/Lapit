@@ -12,7 +12,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.dung.lapit.R
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.example.dung.applabit.loginandregister.login.LoginFragment
 
 class LoginAndRegisterActivity : AppCompatActivity() {

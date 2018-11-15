@@ -1,12 +1,5 @@
-package com.example.dung.applabit.Model
+package com.dung.lapit.Model
 
-import android.util.Log
-import android.widget.ImageView
-import com.dung.lapit.App
-import com.dung.lapit.R
-import com.dung.lapit.adapter.FrindFriendAdapter
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 import java.io.Serializable
 
 class User : Serializable {

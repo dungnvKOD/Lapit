@@ -1,6 +1,6 @@
 package com.example.dung.applabit.main.findfriend
 
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 
 
 interface OnFindFriendListener {

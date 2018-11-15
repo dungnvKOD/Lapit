@@ -2,7 +2,7 @@ package com.dung.lapit.main
 
 import android.content.Context
 import com.dung.lapit.App
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*

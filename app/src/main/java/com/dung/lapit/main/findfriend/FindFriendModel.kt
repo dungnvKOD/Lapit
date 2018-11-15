@@ -2,7 +2,7 @@ package com.dung.lapit.main.findfriend
 
 import android.util.Log
 import com.dung.lapit.App
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.example.dung.applabit.main.findfriend.OnFindFriendListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

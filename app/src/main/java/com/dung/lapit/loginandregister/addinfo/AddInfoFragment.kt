@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dung.lapit.R
 import com.dung.lapit.loginandregister.LoginAndRegisterActivity
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.loginandregister.register.RegisterFragment
 import com.example.dung.applabit.util.MyUtils

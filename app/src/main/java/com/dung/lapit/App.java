@@ -2,7 +2,7 @@ package com.dung.lapit;
 
 import android.app.Application;
 import android.graphics.drawable.Drawable;
-import com.example.dung.applabit.Model.User;
+import com.dung.lapit.Model.User;
 
 public class App extends Application {
 

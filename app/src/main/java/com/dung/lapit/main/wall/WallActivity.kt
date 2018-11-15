@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.ImageList
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.example.dung.applabit.adapter.ProfileAdapter
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.util.MyUtils

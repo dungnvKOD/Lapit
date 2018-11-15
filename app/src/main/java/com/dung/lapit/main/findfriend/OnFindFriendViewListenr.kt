@@ -1,6 +1,6 @@
 package com.dung.lapit.main.findfriend
 
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 
 interface OnFindFriendViewListenr {
     fun getFriendSuccess(users: User)

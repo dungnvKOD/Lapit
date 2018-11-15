@@ -2,7 +2,6 @@ package com.dung.lapit.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
 import com.dung.lapit.R
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.item_find_friend.view.*

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dung.lapit.App
 import com.dung.lapit.R
 import com.dung.lapit.adapter.FrindFriendAdapter
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.main.findfriend.FindFriendPresenter

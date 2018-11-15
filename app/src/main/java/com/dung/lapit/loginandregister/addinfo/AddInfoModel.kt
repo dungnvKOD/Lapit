@@ -2,7 +2,7 @@ package com.example.dung.applabit.loginandregister.addinfo
 
 import android.text.TextUtils
 import android.util.Log
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 
 
 class AddInfoModel(private val onAddInfoListener: OnAddInfoListener) {

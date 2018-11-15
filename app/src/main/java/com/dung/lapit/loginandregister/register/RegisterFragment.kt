@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.dung.lapit.main.MainActivity
 import com.dung.lapit.R
 import com.dung.lapit.loginandregister.LoginAndRegisterActivity
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : Fragment(), View.OnClickListener, OnRegisterViewListener {

@@ -3,9 +3,8 @@ package com.example.dung.applabit.loginandregister.register
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
-import android.widget.Toast
 import com.dung.lapit.App
-import com.example.dung.applabit.Model.User
+import com.dung.lapit.Model.User
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.util.MyUtils
 import com.google.android.gms.tasks.Task
