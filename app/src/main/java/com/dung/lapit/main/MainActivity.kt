@@ -19,7 +19,7 @@ import com.dung.lapit.App
 import com.dung.lapit.R
 import com.dung.lapit.main.wall.WallActivity
 import com.dung.lapit.main.findfriend.FindFriendFragment
-import com.example.dung.applabit.main.friend.FriendFragment
+import com.dung.lapit.main.friend.FriendFragment
 import com.dung.lapit.main.like.LikeFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices

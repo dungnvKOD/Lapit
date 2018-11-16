@@ -246,16 +246,24 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
 
     fun visit(friendUser: User, auth: FirebaseAuth, reference: DatabaseReference) {
 
-        val hashMap: HashMap<String, Any> = HashMap()
+        val hashMap: HashMap<String, Any?> = HashMap()
         val id = auth.currentUser!!.uid
-        hashMap[id] = MyUtils().timeHere()
+        hashMap["gioiTinh"] = App.getInsatnce().user.gioiTinh
+        hashMap["imageAvatarURL"] = App.getInsatnce().user.imageAvatarURL
+        hashMap["idUser"] = auth.currentUser!!.uid
+        hashMap["name"] = App.getInsatnce().user.name
+        hashMap["ngaySinh"] = App.getInsatnce().user.ngaySinh
+//        hashMap["latitude"] = App.getInsatnce().user.latitude
+//        hashMap["longitude"] = App.getInsatnce().user.longitude
+//        hashMap["status"] = App.getInsatnce().user.status
+//        hashMap["discribe"] = App.getInsatnce().user.discribe
 
-        reference.child("UsersFemale").child(friendUser.idUser!!).child("visit").updateChildren(hashMap)
-            .addOnSuccessListener {
+        if (App.getInsatnce().isGender) {
+            reference.child("UsersFemale").child(friendUser.idUser!!).child("visit").child(id).updateChildren(hashMap)
 
-
-            }
+        } else {
+            reference.child("UsersMale").child(friendUser.idUser!!).child("visit").child(id).updateChildren(hashMap)
+        }
 
     }
-
 }

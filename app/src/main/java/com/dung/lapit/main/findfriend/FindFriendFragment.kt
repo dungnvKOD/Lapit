@@ -3,6 +3,7 @@ package com.dung.lapit.main.findfriend
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_find_friend.*
 class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapter.OnCliclItemListener {
 
 
-    private lateinit var friendAdapter: FrindFriendAdapter
     private var users: ArrayList<User> = ArrayList()
+    private var friendAdapter: FrindFriendAdapter? = null
     private lateinit var findFriendPresenter: FindFriendPresenter
 
     companion object {
@@ -54,7 +55,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
         users.clear()
         friendAdapter = FrindFriendAdapter(activity!!, users)
         rcvFindFriend.adapter = friendAdapter
-        friendAdapter.setOnClickItemListener(this)
+        friendAdapter!!.setOnClickItemListener(this)
 
     }
 
@@ -68,22 +69,23 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
         bundle.putSerializable(Constant.KEY_PUT_INTEN_USER, user)
         intent.putExtras(bundle)
         startActivity(intent)
+        Log.d("a", "${user.latitude},${user.longitude}  ,${App.getInsatnce().latitude},${App.getInsatnce().longitude}")
 
 
     }
 
     override fun getFriendSuccess(users: User) {
-        friendAdapter.insertItem(users)
+        friendAdapter!!.insertItem(users)
 
     }
 
     override fun getFriendFailed(users: User) {
-        friendAdapter.insertItem(users)
+        friendAdapter!!.insertItem(users)
 
     }
 
     override fun updateFriendSuccess(userUpdate: User) {
-        friendAdapter.updateItem(userUpdate)
+        friendAdapter!!.updateItem(userUpdate)
 
     }
 
@@ -94,5 +96,11 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
     override fun hideProgressBar() {
         progersstbar_find_frien.visibility = View.INVISIBLE
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        friendAdapter = null
     }
 }

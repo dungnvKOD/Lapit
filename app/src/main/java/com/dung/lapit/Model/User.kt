@@ -17,8 +17,6 @@ class User : Serializable {
 //    var visit: Boolean = false
 
 
-
-
     constructor()
 
 
@@ -46,58 +44,13 @@ class User : Serializable {
         this.status = status
     }
 
-
-//    constructor(
-//        idUser: String?,
-//        name: String?,
-//        ngaySinh: Long,
-//        imageAvatarURL: String?,
-//        discribe: String?,
-//        gioiTinh: Boolean,
-//        latitude: Double,
-//        longitude: Double,
-//        status: Boolean,
-//        like: Boolean
-//    ) {
-//        this.idUser = idUser
-//        this.name = name
-//        this.ngaySinh = ngaySinh
-//        this.imageAvatarURL = imageAvatarURL
-//        this.discribe = discribe
-//        this.gioiTinh = gioiTinh
-//        this.latitude = latitude
-//        this.longitude = longitude
-//        this.status = status
-//        this.like = like
-//    }
-
-//    constructor(
-//        idUser: String?,
-//        name: String?,
-//        ngaySinh: Long,
-//        imageAvatarURL: String?,
-//        discribe: String?,
-//        gioiTinh: Boolean,
-//        latitude: Double,
-//        longitude: Double,
-//        status: Boolean,
-//        like: Boolean,
-//        visit: Boolean
-//    ) {
-//        this.idUser = idUser
-//        this.name = name
-//        this.ngaySinh = ngaySinh
-//        this.imageAvatarURL = imageAvatarURL
-//        this.discribe = discribe
-//        this.gioiTinh = gioiTinh
-//        this.latitude = latitude
-//        this.longitude = longitude
-//        this.status = status
-//        this.like = like
-//        this.visit = visit
-//    }
-
-
+    constructor(idUser: String?, name: String?, ngaySinh: Long, imageAvatarURL: String?, gioiTinh: Boolean) {
+        this.idUser = idUser
+        this.name = name
+        this.ngaySinh = ngaySinh
+        this.imageAvatarURL = imageAvatarURL
+        this.gioiTinh = gioiTinh
+    }
 
 
     /**

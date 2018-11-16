@@ -71,9 +71,7 @@ class LikeFragment : Fragment(), OnLikeViewListener, LikeAdapter.OnCliclItemList
         bundle.putSerializable(Constant.KEY_PUT_INTEN_USER, user)
         intent.putExtras(bundle)
         startActivity(intent)
-
     }
-
 
     override fun getDataLikeSuccess(users: ArrayList<User>) {
         Log.d(TAG, " ${users[0].name}   ve day...")

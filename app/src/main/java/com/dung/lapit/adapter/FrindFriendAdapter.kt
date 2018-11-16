@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dung.lapit.App
@@ -20,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.item_find_friend.view.*
 
-class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
+class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val reference = FirebaseDatabase.getInstance().reference
     private val auth = FirebaseAuth.getInstance()
@@ -44,7 +46,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val user = users[position]
+        val user = users[holder.adapterPosition]
         if (holder is ItemViewHolder) {
             holder.txtName.text = user.name
 
@@ -54,6 +56,7 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
                 App.getInsatnce().latitude,
                 App.getInsatnce().longitude
             )
+
 
 
             if (user.status) {
@@ -108,17 +111,31 @@ class FrindFriendAdapter(val context: Context, var users: MutableList<User>) :
     }
 
     private fun getImage(imgBackground: ImageView, view: View, user: User, boolean: Boolean) {
+        if (context == null) {
+            return
+        }
 
-        Glide.with(context).load(user.imageAvatarURL).into(object : SimpleTarget<Drawable>(200, 200) {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+        if (user.imageAvatarURL == null) {
+            return
+        }
+        Glide.with(context.applicationContext).load(user.imageAvatarURL).apply(
+            RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(true)
+        )
+            .into(object : SimpleTarget<Drawable>(200, 200) {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    imgBackground.setImageDrawable(resource)
+                    view.setOnClickListener {
+                        Log.d(
+                            "a",
+                            "${user.latitude},${user.longitude}  ,${App.getInsatnce().latitude},${App.getInsatnce().longitude}...ADAPTER"
+                        )
 
-                imgBackground.setImageDrawable(resource)
-                view.setOnClickListener {
-                    onCliclItemListener.onClickItem(user, resource, boolean)
+                        onCliclItemListener.onClickItem(user, resource, boolean)
+                    }
                 }
-            }
-        })
-
+            })
     }
 
     fun insertItem(user: User) {

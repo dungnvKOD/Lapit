@@ -93,7 +93,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             btnSenMessage.visibility = View.VISIBLE
             txtKhoangCach.visibility = View.VISIBLE
 
-
             user = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
             /**
              *     like
@@ -102,20 +101,21 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             /**
              *  visit
              */
-
+            Log.d(
+                "a",
+                "${user!!.latitude},${user!!.longitude}  ,${App.getInsatnce().latitude},${App.getInsatnce().longitude}...WALL"
+            )
             wallPrecenter.visit(user!!, auth, reference)
 
 
             txtName.text = user!!.name
             txtDiaChi.text = MyUtils().hereLocation(user!!.latitude, user!!.longitude, this)
             txtNamSinh.text = MyUtils().convertTime(user!!.ngaySinh, MyUtils.TYPE_DATE_D_M_YYYY)
-            val km = "%.1f".format(
-                MyUtils().distance(
-                    user!!.latitude,
-                    user!!.longitude,
-                    App.getInsatnce().latitude,
-                    App.getInsatnce().longitude
-                )
+            val km = user!!.distance(
+                user!!.latitude,
+                user!!.longitude,
+                App.getInsatnce().latitude,
+                App.getInsatnce().longitude
             )
 
             //check like ban dau
@@ -125,7 +125,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
                 fabLike.setImageResource(R.drawable.ic_un_like)
             }
 
-            txtKhoangCach.text = "$km Km"
+            txtKhoangCach.text = "$km"
             if (user!!.status) {
 
                 imgTRangThai.setImageResource(R.drawable.ic_online)
@@ -531,6 +531,4 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
         super.onDestroy()
         App.getInsatnce().drawable = null
     }
-
-
 }
