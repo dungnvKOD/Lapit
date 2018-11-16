@@ -18,7 +18,7 @@ import com.dung.lapit.main.wall.WallActivity
 import com.example.dung.applabit.conmon.Constant
 import kotlinx.android.synthetic.main.fragment_like.*
 
-class LikeFragment : Fragment(), OnLikeViewListener, LikeAdapter.OnCliclItemListener {
+class LikeFragment : Fragment(), OnLikeViewListener, LikeAdapter.OnCliclItemListener{
 
 
     private lateinit var likePresenter: LikePresenter
@@ -36,14 +36,11 @@ class LikeFragment : Fragment(), OnLikeViewListener, LikeAdapter.OnCliclItemList
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-
         return inflater.inflate(R.layout.fragment_like, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
     }
 
