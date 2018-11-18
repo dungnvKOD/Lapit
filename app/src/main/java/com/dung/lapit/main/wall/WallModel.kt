@@ -260,7 +260,6 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
 
         if (App.getInsatnce().isGender) {
             reference.child("UsersFemale").child(friendUser.idUser!!).child("visit").child(id).updateChildren(hashMap)
-
         } else {
             reference.child("UsersMale").child(friendUser.idUser!!).child("visit").child(id).updateChildren(hashMap)
         }

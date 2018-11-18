@@ -30,11 +30,9 @@
             android:name=".main.MainActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".main.profile.ProfileActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
             android:name=".main.wall.WallActivity"
             android:theme="@style/NoActionBar" />
+        <activity android:name=".main.message.MessageActivity"></activity>
     </application>
 
 </manifest>
