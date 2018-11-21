@@ -263,6 +263,5 @@ class WallModel(val context: Context, val onWallListener: OnWallListener) {
         } else {
             reference.child("UsersMale").child(friendUser.idUser!!).child("visit").child(id).updateChildren(hashMap)
         }
-
     }
 }

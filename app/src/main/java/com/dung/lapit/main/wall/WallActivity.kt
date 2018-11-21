@@ -33,6 +33,7 @@ import com.dung.lapit.App
 import com.dung.lapit.R
 import com.example.dung.applabit.Model.ImageList
 import com.dung.lapit.Model.User
+import com.dung.lapit.main.message.MessageActivity
 import com.example.dung.applabit.adapter.ProfileAdapter
 import com.example.dung.applabit.conmon.Constant
 import com.example.dung.applabit.util.MyUtils
@@ -223,8 +224,8 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             val uri = data!!.data
             val timeHere = MyUtils().timeHere()
             wallPrecenter.addImageList(uri.toString(), timeHere, true, auth, reference, storageReference)
-        }
 
+        }
     }
 
     /**
@@ -243,7 +244,21 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             }
 
             R.id.btnSenMessage -> {
-                Toast.makeText(this, " sen message", Toast.LENGTH_SHORT).show()
+                /**
+                 *  message
+                 *
+                 */
+
+                if (user != null) {
+                    Toast.makeText(this, " sen message", Toast.LENGTH_SHORT).show()
+                    val bundle = Bundle()
+                    bundle.putSerializable(Constant.KEY_PUT_INTEN_USER, user)
+                    val intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+
+                }
+
 
             }
 
@@ -530,5 +545,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
     override fun onDestroy() {
         super.onDestroy()
         App.getInsatnce().drawable = null
+        user = null
     }
 }

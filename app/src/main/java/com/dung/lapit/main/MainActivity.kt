@@ -12,8 +12,11 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import com.dung.lapit.App
 import com.dung.lapit.R
@@ -21,6 +24,7 @@ import com.dung.lapit.main.wall.WallActivity
 import com.dung.lapit.main.findfriend.FindFriendFragment
 import com.dung.lapit.main.friend.FriendFragment
 import com.dung.lapit.main.like.LikeFragment
+import com.dung.lapit.main.message.MessageActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         init()
         Log.d(TAG, App.getInsatnce().isGender.toString() + ".....")
+        setSupportActionBar(toobarMain as Toolbar?)
     }
 
     private fun init() {
@@ -83,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             if (location != null) {
                 App.getInsatnce().latitude = location.latitude
                 App.getInsatnce().longitude = location.longitude
-                Toast.makeText(this, "${location.longitude}.}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "${location.longitude}", Toast.LENGTH_SHORT).show()
                 mainPresenter.insertLocation(location.latitude, location.longitude)
 
             } else {
@@ -91,6 +96,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_message, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.menu_message -> {
+                toast("message...")
+                val intent = Intent(this, MessageActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+        }
+        return false
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
