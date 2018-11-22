@@ -84,7 +84,7 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
 
     }
 
-    override fun updateFriendSuccess(userUpdate: User) {
+    override fun updateFriendSuccess(userUpdate: User) {// thay bao loi o day
         friendAdapter!!.updateItem(userUpdate)
 
     }
@@ -100,7 +100,6 @@ class FindFriendFragment : Fragment(), OnFindFriendViewListenr, FrindFriendAdapt
 
     override fun onDestroy() {
         super.onDestroy()
-
         friendAdapter = null
     }
 }

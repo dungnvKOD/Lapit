@@ -57,22 +57,18 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
                 App.getInsatnce().longitude
             )
 
-
-
             if (user.status) {
-                Log.d(TAG, "online")
+//                Log.d(TAG, "online")
                 holder.imgOnOff.setImageResource(R.drawable.ic_online)
 
             } else {
-                Log.d(TAG, "offline")
+//                Log.d(TAG, "offline")
                 holder.imgOnOff.setImageResource(R.drawable.ic_offline)
 
             }
 
             reference.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-
-
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
@@ -80,12 +76,12 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
                         if (p0.child("UsersFemale").child(user.idUser!!).child("like").hasChild(auth.currentUser!!.uid)) {
                             //like true
                             holder.imgLike.setImageResource(R.drawable.ic_like)
-                            Log.d(FrindFriendAdapter.TAG, " like")
+//                            Log.d(FrindFriendAdapter.TAG, " like")
                             getImage(holder.imgBackground, holder.itemView, user, true)
 
                         } else {
                             //un like false
-                            Log.d(FrindFriendAdapter.TAG, "un like")
+//                            Log.d(FrindFriendAdapter.TAG, "un like")
                             holder.imgLike.setImageResource(R.drawable.ic_un_like)
                             getImage(holder.imgBackground, holder.itemView, user, false)
 
@@ -105,8 +101,6 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
 
                 }
             })
-
-
         }
     }
 
@@ -127,16 +121,17 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                     imgBackground.setImageDrawable(resource)
                     view.setOnClickListener {
-                        Log.d(
-                            "a",
-                            "${user.latitude},${user.longitude}  ,${App.getInsatnce().latitude},${App.getInsatnce().longitude}...ADAPTER"
-                        )
+//                        Log.d(
+//                            "a",
+//                            "${user.latitude},${user.longitude}  ,${App.getInsatnce().latitude},${App.getInsatnce().longitude}...ADAPTER"
+//                        )
 
                         onCliclItemListener.onClickItem(user, resource, boolean)
                     }
                 }
             })
     }
+
 
     fun insertItem(user: User) {
         users.add(0, user)
@@ -145,20 +140,18 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
     }
 
     fun updateItem(user: User) {
-        Log.d(TAG, user.idUser + ", ${users.size}")
+//        Log.d(TAG, user.idUser + ", ${users.size}")
 
         for (i in 0 until users.size) {
             Log.d(TAG, users[i].idUser)
 
             if (user.idUser == users[i].idUser) {
-                Log.d(TAG, "ok...")
+                Log.d(TAG, "ok...$i")
                 users[i] = user
-                notifyDataSetChanged()
+                notifyItemChanged(i)
             }
         }
-
     }
-
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

@@ -11,15 +11,22 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class MessageFModel(val onMessageFModelListener: OnMessageFModelListener) {
+class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friendUser: User) {
 
     companion object {
         const val TAG = "MessageFModel"
     }
 
+
     private val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+
+
+    init {
+        getMessaged(friendUser)
+
+    }
 
     fun senMessage(friendUser: User, message: Message) {
         /**
@@ -92,7 +99,7 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener) {
         }
     }
 
-    fun getMessaged(friendUser: User) {
+    private fun getMessaged(friendUser: User) {
         /**
          *  neu la nam  thi cast chuoi lay phan dau vva so sanh
          *
@@ -125,7 +132,8 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener) {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
+                val message: Message = p0.getValue(Message::class.java)!!
+                onMessageFModelListener.getMessagedSuccess(message)
 
             }
 

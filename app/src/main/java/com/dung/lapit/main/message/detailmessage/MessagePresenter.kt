@@ -3,9 +3,10 @@ package com.dung.lapit.main.message.detailmessage
 import com.dung.lapit.Model.Message
 import com.dung.lapit.Model.User
 
-class MessagePresenter(private val onMessageFViewListener: OnMessageFViewListener) : OnMessageFModelListener {
+class MessagePresenter(private val onMessageFViewListener: OnMessageFViewListener, friendUser: User) :
+    OnMessageFModelListener {
 
-    private val messageModel: MessageFModel = MessageFModel(this)
+    private val messageModel: MessageFModel = MessageFModel(this, friendUser)
 
     fun senMessage(friendUser: User, message: Message) {
         messageModel.senMessage(friendUser, message)

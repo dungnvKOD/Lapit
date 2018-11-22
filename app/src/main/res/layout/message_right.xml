@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:orientation="horizontal">
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
 
         <RelativeLayout
-            android:id="@+id/layoutItemMessageRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/imgMyAvatar"
-            android:background="@drawable/message_right"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/txtItemMessageRight"
+                android:id="@+id/layoutItemMessageRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="nguyen van dung"
-                android:textColor="@color/colorTextLight" />
+                android:layout_toLeftOf="@id/imgMyAvatarRight"
+                android:background="@drawable/message_right"
+                android:padding="8dp">
+
+            <TextView
+                    android:id="@+id/txtItemMessageRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="nguyen van dung"
+                    android:textColor="@color/colorTextLight"/>
 
             <ImageView
-                android:id="@+id/imgItemImageRight"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_below="@id/txtItemMessageRight"
-                android:layout_marginTop="4dp"
-                android:src="@drawable/mau" />
+                    android:id="@+id/imgItemImageRight"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_below="@id/txtItemMessageRight"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/mau"/>
         </RelativeLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
 
-            android:id="@+id/imgMyAvatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@id/layoutItemMessageRight"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="4dp"
-            android:src="@drawable/mau" />
+                android:id="@+id/imgMyAvatarRight"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@id/layoutItemMessageRight"
+                android:paddingTop="4dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/mau"/>
 
         <TextView
-            android:id="@+id/txtTimeMessageRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutItemMessageRight"
-            android:layout_alignLeft="@id/layoutItemMessageRight"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="2222"
-            android:textColor="#000000"
-            android:textSize="10sp" />
+                android:id="@+id/txtTimeMessageRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layoutItemMessageRight"
+                android:layout_alignLeft="@id/layoutItemMessageRight"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="2222"
+                android:textColor="#000000"
+                android:textSize="10sp"/>
 
     </RelativeLayout>
 </RelativeLayout>
