@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_message -> {
                 toast("message...")
                 val intent = Intent(this, MessageActivity::class.java)
-                startActivity(intent)
+//                startActivity(intent)
                 return true
             }
         }

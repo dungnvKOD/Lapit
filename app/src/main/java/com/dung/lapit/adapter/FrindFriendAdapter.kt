@@ -143,9 +143,10 @@ class FrindFriendAdapter(val context: Context?, var users: MutableList<User>) :
 //        Log.d(TAG, user.idUser + ", ${users.size}")
 
         for (i in 0 until users.size) {
-            Log.d(TAG, users[i].idUser)
+
 
             if (user.idUser == users[i].idUser) {
+                Log.d(TAG, users[i].idUser)
                 Log.d(TAG, "ok...$i")
                 users[i] = user
                 notifyItemChanged(i)
