@@ -85,5 +85,4 @@ class FindFriendModel(private val onFindFriendListener: OnFindFriendListener) {
             })
         }
     }
-
 }

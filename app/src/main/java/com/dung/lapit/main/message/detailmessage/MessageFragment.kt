@@ -1,6 +1,5 @@
 package com.dung.lapit.main.message.detailmessage
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -41,7 +40,6 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
     }
 
@@ -70,11 +68,13 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
                 val ms = edtSend.text.toString()
 
                 if (mes != null) {
-                    var message: Message = Message(
+                    val message: Message = Message(
                         ms,
                         MyUtils().timeHere(),
                         App.getInsatnce().user.idUser,
-                        (activity as MessageActivity).fUser.idUser
+                        (activity as MessageActivity).fUser.idUser,
+                        null,
+                        (activity as MessageActivity).fUser.imageAvatarURL
                     )
                     messagePresenter.senMessage((activity as MessageActivity).fUser, message)
                     edtSend.setText("")
@@ -94,7 +94,6 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
     override fun getMessagedSuccess(message: Message) {
         Log.d(TAG, "${message.message}")
         detailMessageAdapter.insertMessage(message)
-
     }
 
     override fun getMessagedFailed() {
@@ -114,5 +113,4 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
         mes = null
         mes = ArrayList()
     }
-
 }

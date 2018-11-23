@@ -4,8 +4,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               >
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:paddingTop="4dp"
@@ -14,7 +14,6 @@
             android:layout_height="50dp"
             android:layout_alignBottom="@id/layoutItemMessageLeft"
             android:src="@drawable/mau"/>
-
 
     <RelativeLayout
             android:id="@+id/layoutItemMessageLeft"
@@ -25,7 +24,6 @@
             android:layout_toEndOf="@id/imgMyAvatarLeft"
             android:background="@drawable/message_left">
 
-
         <TextView
                 android:id="@+id/txtItemMessageLeft"
                 android:layout_width="wrap_content"
@@ -35,13 +33,10 @@
                 android:id="@+id/imgItemImageLeft"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-
                 android:layout_below="@id/txtItemMessageLeft"
                 android:layout_marginTop="4dp"
                 android:src="@drawable/mau"/>
-
     </RelativeLayout>
-
 
     <TextView
             android:id="@+id/txtTimeMessage"

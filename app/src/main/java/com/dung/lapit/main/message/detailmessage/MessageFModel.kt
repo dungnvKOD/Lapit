@@ -87,7 +87,6 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
                     }
                 }
             }
-
         } else {
             /**
              *  neu khong co anh thi gui len data base luon

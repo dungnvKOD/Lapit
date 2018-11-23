@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
     @TargetApi(Build.VERSION_CODES.M)
     fun hasPermission(permission: String): Boolean {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+
     }
 
     /**
