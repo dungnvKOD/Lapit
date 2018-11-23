@@ -12,6 +12,8 @@ public class App extends Application {
     private Drawable drawable;
     private boolean isLike;
     private User user;
+    private boolean isMessage;
+    private boolean checkGetMessage;
 
     private static App insatnce;
 
@@ -26,6 +28,23 @@ public class App extends Application {
             insatnce = new App();
         }
         return insatnce;
+    }
+
+    public boolean isMessage() {
+        return isMessage;
+    }
+
+    public void setMessage(boolean message) {
+        isMessage = message;
+    }
+
+
+    public boolean isCheckGetMessage() {
+        return checkGetMessage;
+    }
+
+    public void setCheckGetMessage(boolean checkGetMessage) {
+        this.checkGetMessage = checkGetMessage;
     }
 
     public User getUser() {

@@ -7,23 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dung.lapit.App
 import com.dung.lapit.Model.Message
 import com.dung.lapit.R
 import com.dung.lapit.adapter.DetailMessageAdapter
+import com.dung.lapit.main.MainActivity
 import com.dung.lapit.main.message.MessageActivity
 import com.example.dung.applabit.util.MyUtils
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mesage.*
 
 class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener {
 
+
     private lateinit var detailMessageAdapter: DetailMessageAdapter
-    private var mes: ArrayList<Message>? = ArrayList()
+    private lateinit var mess: ArrayList<Message>
 
     private lateinit var messagePresenter: MessagePresenter
+
 
     companion object {
         val newFragment: Fragment = MessageFragment()
@@ -34,6 +35,11 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        App.getInsatnce().isCheckGetMessage = false
+        mess = ArrayList()
+
+
         return inflater.inflate(R.layout.fragment_mesage, container, false)
 
     }
@@ -43,10 +49,16 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
         init()
     }
 
+    override fun updateMessage(message: Message) {
+////////////////////////////////////////////////////////
+    }
+
     @SuppressLint("WrongConstant")
     private fun init() {
+
         (activity as MessageActivity).setSupportActionBar(toolbarMessageD)
         messagePresenter = MessagePresenter(this, (activity as MessageActivity).fUser)
+        messagePresenter.getMesssage((activity as MessageActivity).fUser)
 
         rcvMessageFragment.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(activity)
@@ -54,7 +66,11 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
         rcvMessageFragment.layoutManager = linearLayoutManager
         linearLayoutManager.stackFromEnd = true
         detailMessageAdapter =
-                DetailMessageAdapter(activity!!, mes!!, (activity as MessageActivity).fUser.imageAvatarURL!!)
+                DetailMessageAdapter(
+                    activity!!,
+                    ArrayList<Message>(),
+                    (activity as MessageActivity).fUser.imageAvatarURL!!
+                )
         rcvMessageFragment.adapter = detailMessageAdapter
 
         btnSend.setOnClickListener(this)
@@ -66,19 +82,18 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
         when (v!!.id) {
             R.id.btnSend -> {
                 val ms = edtSend.text.toString()
-
-                if (mes != null) {
-                    val message: Message = Message(
-                        ms,
-                        MyUtils().timeHere(),
-                        App.getInsatnce().user.idUser,
-                        (activity as MessageActivity).fUser.idUser,
-                        null,
-                        (activity as MessageActivity).fUser.imageAvatarURL
-                    )
-                    messagePresenter.senMessage((activity as MessageActivity).fUser, message)
-                    edtSend.setText("")
-                }
+                val message: Message = Message(
+                    ms,
+                    MyUtils().timeHere(),
+                    App.getInsatnce().user.idUser,
+                    (activity as MessageActivity).fUser.idUser,
+                    null,
+                    (activity as MessageActivity).fUser.imageAvatarURL
+                )
+                App.getInsatnce().isMessage = true
+                App.getInsatnce().isCheckGetMessage = true
+                messagePresenter.senMessage((activity as MessageActivity).fUser, message)
+                edtSend.setText("")
             }
         }
     }
@@ -101,16 +116,15 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
     }
 
     override fun showProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun hideProgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mes = null
-        mes = ArrayList()
+
     }
 }

@@ -13,4 +13,5 @@ interface OnMessageFViewListener {
     fun showProgressBar()
     fun hideProgressBar()
 
+    fun updateMessage(message: Message)
 }

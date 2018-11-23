@@ -6,10 +6,16 @@ import com.dung.lapit.Model.User
 class MessagePresenter(private val onMessageFViewListener: OnMessageFViewListener, friendUser: User) :
     OnMessageFModelListener {
 
+
     private val messageModel: MessageFModel = MessageFModel(this, friendUser)
 
     fun senMessage(friendUser: User, message: Message) {
         messageModel.senMessage(friendUser, message)
+    }
+
+    fun getMesssage(fUser: User) {
+        messageModel.getMessaged(fUser)
+
     }
 
     override fun senMessagerSuccess() {
@@ -26,5 +32,9 @@ class MessagePresenter(private val onMessageFViewListener: OnMessageFViewListene
 
     override fun getMessagedFailed() {
         onMessageFViewListener.getMessagedFailed()
+    }
+
+    override fun updateMessage(message: Message) {
+        onMessageFViewListener.updateMessage(message)
     }
 }

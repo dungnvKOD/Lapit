@@ -9,4 +9,6 @@ interface OnMessageFModelListener {
     fun getMessagedSuccess(message: Message)
     fun getMessagedFailed()
 
+    fun updateMessage(message: Message)
+
 }

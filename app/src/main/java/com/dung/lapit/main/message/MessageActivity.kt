@@ -10,7 +10,6 @@ import com.example.dung.applabit.conmon.Constant
 class MessageActivity : AppCompatActivity() {
 
     lateinit var fUser: User
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)

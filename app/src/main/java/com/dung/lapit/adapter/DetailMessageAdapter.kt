@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.message_left.view.*
 import kotlinx.android.synthetic.main.message_right.view.*
 
 
-class DetailMessageAdapter(val context: Context, val mes: ArrayList<Message>,val fUrl:String) :
+class DetailMessageAdapter(val context: Context, val mes: ArrayList<Message>?, val fUrl: String) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -35,7 +35,7 @@ class DetailMessageAdapter(val context: Context, val mes: ArrayList<Message>,val
 
     override fun getItemViewType(position: Int): Int {
 
-        return if (mes[position].myIdUser == App.getInsatnce().user.idUser) {
+        return if (mes!![position].myIdUser == App.getInsatnce().user.idUser) {
             Log.d(TAG, "right...")
             ITEM_TYPE_RIGHT
         } else {
@@ -61,12 +61,12 @@ class DetailMessageAdapter(val context: Context, val mes: ArrayList<Message>,val
     }
 
     override fun getItemCount(): Int {
-        return mes.size
+        return mes!!.size
 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = mes[position]
+        val message = mes!![position]
 
 
         if (holder is ItemViewHolderRight) {
@@ -104,9 +104,8 @@ class DetailMessageAdapter(val context: Context, val mes: ArrayList<Message>,val
 
 
     fun insertMessage(message: Message) {
-        mes.add(message)
-        notifyItemInserted(mes.size-1)
-
+        mes!!.add(message)
+        notifyItemInserted(mes!!.size - 1)
     }
 
 

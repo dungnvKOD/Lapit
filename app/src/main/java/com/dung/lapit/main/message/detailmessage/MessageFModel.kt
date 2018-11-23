@@ -24,7 +24,7 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
 
 
     init {
-        getMessaged(friendUser)
+
 
     }
 
@@ -98,7 +98,7 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
         }
     }
 
-    private fun getMessaged(friendUser: User) {
+    fun getMessaged(friendUser: User) {
         /**
          *  neu la nam  thi cast chuoi lay phan dau vva so sanh
          *
@@ -119,9 +119,9 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
         }
     }
 
-    fun getData(nodeID: String) {
+    private fun getData(nodeID: String) {
 
-        reference.child("Messaged").child(nodeID).addChildEventListener(object : ChildEventListener {
+        val childEventListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -132,13 +132,23 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                 val message: Message = p0.getValue(Message::class.java)!!
-                onMessageFModelListener.getMessagedSuccess(message)
-
+//                onMessageFModelListener.updateMessage(message)
+//                reference.child("Messaged").child(nodeID).removeEventListener(this)
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val message: Message = p0.getValue(Message::class.java)!!
-                onMessageFModelListener.getMessagedSuccess(message)
+//                reference.child("Messaged").child(nodeID).addChildEventListener(this)
+                if (App.getInsatnce().isCheckGetMessage) {
+                    if (App.getInsatnce().isMessage) {
+                        onMessageFModelListener.getMessagedSuccess(message)
+                        App.getInsatnce().isMessage = false
+                    }
+                } else {
+                    onMessageFModelListener.getMessagedSuccess(message)
+
+                }
+
 
             }
 
@@ -146,9 +156,9 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
 
 
             }
-        })
+        }
 
-
+        reference.child("Messaged").child(nodeID).addChildEventListener(childEventListener)
     }
 
 }
