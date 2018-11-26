@@ -15,7 +15,6 @@ class MainModel(val context: Context) {
 
     init {
         reference = firebaseDatabase.reference
-
         getMyInfo(reference, auth)
     }
 
@@ -61,7 +60,7 @@ class MainModel(val context: Context) {
             }
         }
         reference.addValueEventListener(valueEventListener)
-    }
 
+    }
 
 }
