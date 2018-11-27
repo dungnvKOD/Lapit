@@ -12,12 +12,11 @@ import com.dung.lapit.App
 import com.dung.lapit.Model.Message
 import com.dung.lapit.R
 import com.dung.lapit.adapter.DetailMessageAdapter
-import com.dung.lapit.main.MainActivity
 import com.dung.lapit.main.message.MessageActivity
 import com.example.dung.applabit.util.MyUtils
 import kotlinx.android.synthetic.main.fragment_mesage.*
 
-class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener {
+class DetailMessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener {
 
 
     private lateinit var detailMessageAdapter: DetailMessageAdapter
@@ -27,8 +26,8 @@ class MessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener
 
 
     companion object {
-        val newFragment: Fragment = MessageFragment()
-        val TAG = "MessageFragment"
+        val newFragment: Fragment = DetailMessageFragment()
+        val TAG = "DetailMessageFragment"
     }
 
     override fun onCreateView(

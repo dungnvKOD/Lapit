@@ -17,14 +17,11 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
         const val TAG = "MessageFModel"
     }
 
-
     private val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
 
-
     init {
-
 
     }
 
@@ -42,7 +39,7 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
          */
         if (App.getInsatnce().isGender) {
             val nodeID: String = "${myID}_$friendID".trim()
-            insertMessage(nodeID, message)
+            insertMessage(nodeID, message, friendID)
 
         } else {
             /**
@@ -50,16 +47,23 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
              *
              */
             val nodeID: String = "${friendID}_$myID".trim()
-            insertMessage(nodeID, message)
+            insertMessage(nodeID, message, friendID)
         }
     }
 
-    private fun insertMessage(nodeID: String, message: Message) {
-
+    private fun insertMessage(nodeID: String, message: Message, friendId: String) {
 
         val idImage: String = "${nodeID}_${MyUtils().timeHere()}"
 
         //kiem tra image co null hay khong
+
+        val hashMap: HashMap<String, Any> = HashMap()
+        hashMap["friendIdUser"] = message.friendIdUser!!
+        hashMap["myIdUser"] = message.myIdUser!!
+        hashMap["message"] = message.message!!
+        hashMap["time"] = message.time
+        hashMap["urlAvatar"] = message.urlAvatar!!
+
 
         if (message.image != null) {
             Log.d(TAG, "${message.image} ...")
@@ -75,9 +79,12 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
                          *  day data len database
                          *
                          */
-                        message.image = null
+
                         Log.d(TAG, "${message.image}...S")
 
+                        reference.child("Messaged").child(nodeID).child(friendId).push().setValue(message)
+                        reference.child("Messaged").child(nodeID).updateChildren(hashMap)
+                        message.image = null
                         onMessageFModelListener.senMessagerSuccess()
 
                     }.addOnFailureListener {
@@ -92,7 +99,12 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
              *  neu khong co anh thi gui len data base luon
              */
             Log.d(TAG, "image null ...")
-            reference.child("Messaged").child(nodeID).push().setValue(message)
+
+            //
+            reference.child("Messaged").child(nodeID).child(friendId).push().setValue(message)
+            reference.child("Messaged").child(nodeID).updateChildren(hashMap)
+
+            //
             onMessageFModelListener.senMessagerSuccess()
 
         }
@@ -109,17 +121,17 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
         if (App.getInsatnce().isGender) {
             //nam
             val nodeID: String = "${myID}_$friendID"
-            getData(nodeID)
+            getData(nodeID, friendID)
 
         } else {
             //nu
             val nodeID: String = "${friendID}_$myID"
-            getData(nodeID)
+            getData(nodeID, friendID)
 
         }
     }
 
-    private fun getData(nodeID: String) {
+    private fun getData(nodeID: String, friendId: String) {
 
         val childEventListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -148,17 +160,12 @@ class MessageFModel(val onMessageFModelListener: OnMessageFModelListener, friend
                     onMessageFModelListener.getMessagedSuccess(message)
 
                 }
-
-
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-
-
             }
         }
 
-        reference.child("Messaged").child(nodeID).addChildEventListener(childEventListener)
+        reference.child("Messaged").child(nodeID).child(friendId).addChildEventListener(childEventListener)
     }
-
 }

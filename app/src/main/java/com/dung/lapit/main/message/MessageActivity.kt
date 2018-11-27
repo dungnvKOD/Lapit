@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dung.lapit.Model.User
 import com.dung.lapit.R
-import com.dung.lapit.main.message.detailmessage.MessageFragment
+import com.dung.lapit.main.message.detailmessage.DetailMessageFragment
+import com.dung.lapit.main.message.listuser.MessageFragment
 import com.example.dung.applabit.conmon.Constant
 
 class MessageActivity : AppCompatActivity() {
@@ -15,9 +16,15 @@ class MessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_message)
 
 
-        val bundle = intent.extras
-        fUser = bundle.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
-        addOrShowFragment(MessageFragment.newFragment, R.id.layout, false)
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            fUser = bundle!!.getSerializable(Constant.KEY_PUT_INTEN_USER) as User
+            addOrShowFragment(DetailMessageFragment.newFragment, R.id.layout, false)
+        } else {
+            addOrShowFragment(MessageFragment.newFragment, R.id.layout, false)
+        }
+
+
     }
 
     /**
@@ -32,7 +39,7 @@ class MessageActivity : AppCompatActivity() {
 
         if (fragment != null) {
             val frms: ArrayList<androidx.fragment.app.Fragment> =
-                fm.fragments as ArrayList<androidx.fragment.app.Fragment>
+                    fm.fragments as ArrayList<androidx.fragment.app.Fragment>
 
             for (frm: androidx.fragment.app.Fragment in frms) {
 
@@ -43,12 +50,12 @@ class MessageActivity : AppCompatActivity() {
 //                                R.anim.right_enter,
 //                                R.anim.right_exit
 //                        )
-                    .hide(frm)
-                    .commit()
+                        .hide(frm)
+                        .commit()
             }
             fm.beginTransaction()
-                .show(f)
-                .commit()
+                    .show(f)
+                    .commit()
 
         } else {
             fragment = f
@@ -61,9 +68,9 @@ class MessageActivity : AppCompatActivity() {
 //                                R.anim.right_enter,
 //                                R.anim.right_exit
 //                        )
-                    .add(rootId, f, tag)
-                    .addToBackStack(null)
-                    .commit()
+                        .add(rootId, f, tag)
+                        .addToBackStack(null)
+                        .commit()
             } else {
                 fm.beginTransaction()
 //                        .setCustomAnimations(
@@ -73,8 +80,8 @@ class MessageActivity : AppCompatActivity() {
 //                                R.anim.right_exit
 //                        )
 
-                    .add(rootId, f, tag)
-                    .commit()
+                        .add(rootId, f, tag)
+                        .commit()
             }
         }
 

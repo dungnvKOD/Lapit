@@ -1,18 +1,26 @@
 package com.dung.lapit.main.message.listuser
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dung.lapit.Model.Message
 import com.dung.lapit.R
+import com.dung.lapit.adapter.ListMessageAdapter
+import kotlinx.android.synthetic.main.fragment_message_list.*
 
-class MessageFragment : Fragment() {
-
+class MessageFragment : Fragment(), OnMessageViewListener {
     private lateinit var rootView: View
-
+    private lateinit var messagePresenter: MessagePresenter
+    private var messages: ArrayList<Message> = ArrayList()
+    private lateinit var messageAdapter: ListMessageAdapter
 
     companion object {
+        val TAG = "MessageFragment"
         val newFragment: Fragment = MessageFragment()
     }
 
@@ -27,10 +35,28 @@ class MessageFragment : Fragment() {
 
     }
 
+    @SuppressLint("WrongConstant")
     private fun init() {
+        messagePresenter = MessagePresenter(this)
+        messagePresenter.getData()
+
+        val linearLayoutManager = LinearLayoutManager(activity)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        rcvListMessage.layoutManager = linearLayoutManager
+
+        messageAdapter = ListMessageAdapter(activity!!, messages)
+        rcvListMessage.adapter = messageAdapter
 
 
     }
 
+    override fun getDataSuccess(message: Message) {
+        Log.d(TAG, "${message.message}...")
+        messageAdapter.insert(message)
+    }
 
+    override fun getDataFailed() {
+
+
+    }
 }
