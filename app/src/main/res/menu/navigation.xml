@@ -4,23 +4,23 @@
 
     <item
         android:id="@+id/menu_find"
-        android:icon="@drawable/ic_city"
+        android:icon="@mipmap/baseline_fiber_new_black_24"
         android:title="@string/menu_findfriend"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_like"
-        android:icon="@drawable/ic_city"
+        android:icon="@mipmap/baseline_people_black_24"
         android:title="@string/menu_like"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_friend"
-        android:icon="@drawable/ic_city"
+        android:icon="@mipmap/baseline_notifications_active_black_24"
         android:title="@string/menu_friend"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/ic_city"
+        android:icon="@mipmap/baseline_menu_black_24"
         android:title="@string/menu_profile"
         app:showAsAction="never" />
 
