@@ -1,8 +1,6 @@
 package com.dung.lapit.adapter
 
 import android.content.Context
-import android.media.Image
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,20 +12,19 @@ import com.dung.lapit.App
 import com.dung.lapit.Model.Message
 import com.dung.lapit.Model.User
 import com.dung.lapit.R
-import com.dung.lapit.main.findfriend.FindFriendModel
 import com.example.dung.applabit.util.MyUtils
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.item_user_message.view.*
 import java.util.ArrayList
 
-class ListMessageAdapter(val context: Context, val messages: ArrayList<Message>) : RecyclerView.Adapter<ListMessageAdapter.ItemViewHolder>() {
+@Suppress("CAST_NEVER_SUCCEEDS")
+class ListMessageAdapter(val context: Context, var messages: ArrayList<Message>) :
+    RecyclerView.Adapter<ListMessageAdapter.ItemViewHolder>() {
 
     private val inflater = LayoutInflater.from(context)
     private val reference = FirebaseDatabase.getInstance().reference
+    private lateinit var onClickItemListener: OnClickItemListener
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -37,7 +34,6 @@ class ListMessageAdapter(val context: Context, val messages: ArrayList<Message>)
 
     override fun getItemCount(): Int {
         return messages.size
-
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -47,80 +43,78 @@ class ListMessageAdapter(val context: Context, val messages: ArrayList<Message>)
         holder.txtTimeU.text = MyUtils().convertTime(message.time, MyUtils.TYPE_DATE_HH_MM)
 
         if (App.getInsatnce().isGender) {
-            reference.child("UsersFemale").addChildEventListener(object : ChildEventListener {
-                override fun onCancelled(p0: DatabaseError) {
+            reference.child("UsersFemale").child(message.friendIdUser!!)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
 
-                }
+                    }
 
-                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-                }
-
-                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    val user: User = p0.getValue(User::class.java)!!
-                    setName(user, holder.imgAvatar, holder.txtName)
-
-                }
-
-                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                    val user: User = p0.getValue(User::class.java)!!
-                    setName(user, holder.imgAvatar, holder.txtName)
-
-                }
-
-                override fun onChildRemoved(p0: DataSnapshot) {
-
-                }
-            })
+                    override fun onDataChange(p0: DataSnapshot) {
+                        setName(p0, holder.imgAvatar, holder.txtName, holder)
+                    }
+                })
 
         } else {
-            reference.child("UsersMale").addChildEventListener(object : ChildEventListener {
-                override fun onCancelled(p0: DatabaseError) {
+            reference.child("UsersMale").child(message.friendIdUser!!)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
 
-                }
+                    }
 
-                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        setName(p0, holder.imgAvatar, holder.txtName, holder)
 
-                }
-
-                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    val user: User = p0.getValue(User::class.java)!!
-                    setName(user, holder.imgAvatar, holder.txtName)
-
-                }
-
-                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                    val user: User = p0.getValue(User::class.java)!!
-
-                    setName(user, holder.imgAvatar, holder.txtName)
-
-                }
-
-                override fun onChildRemoved(p0: DataSnapshot) {
-
-                }
-            })
+                    }
+                })
         }
-
-
     }
 
-    private fun setName(user: User, image: ImageView, txtName: TextView) {
+    private fun setName(p0: DataSnapshot, image: ImageView, txtName: TextView, holder: ItemViewHolder) {
+
+        val name: String = p0.child("name").value as String
+        val discribe: String = p0.child("discribe").value as String
+        val gioiTinh = p0.child("gioiTinh").value
+        val idUser: String = p0.child("idUser").value as String
+        val imageAvatarURL: String = p0.child("imageAvatarURL").value as String
+        val latitude = p0.child("latitude").value
+        val longitude = p0.child("longitude").value
+        val ngaySinh = p0.child("ngaySinh").value
+        val status = p0.child("status").value
+
+        val user: User = User(
+            idUser,
+            name,
+            ngaySinh as Long,
+            imageAvatarURL,
+            discribe,
+            gioiTinh as Boolean,
+            latitude as Double,
+            longitude as Double,
+            status as Boolean
+        )
+
+        holder.itemView.setOnClickListener {
+
+            onClickItemListener.onClickItem(user)
+        }
 
         Glide.with(context)
-                .load(user.imageAvatarURL)
-                .into(image)
+            .load(user.imageAvatarURL)
+            .into(image)
         txtName.text = user.name
 
     }
 
-    fun insert(message: Message) {
-        messages.add(0, message)
-        notifyItemInserted(0)
-
+    fun setOnClickListerner(onClickItemListener: OnClickItemListener) {
+        this.onClickItemListener = onClickItemListener
 
     }
 
+    fun insert(mgs: ArrayList<Message>) {
+//        this.messages.clear()
+        this.messages = mgs
+        notifyDataSetChanged()
+    }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtName: TextView = view.txtNameU
@@ -128,6 +122,11 @@ class ListMessageAdapter(val context: Context, val messages: ArrayList<Message>)
         val txtTimeU: TextView = view.txtTimeListMessage
         val imgAvatar: CircleImageView = view.imgAvatarUserM
 
+
+    }
+
+    interface OnClickItemListener {
+        fun onClickItem(user: User)
 
     }
 

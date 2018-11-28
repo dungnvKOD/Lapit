@@ -144,7 +144,6 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
             /**
              *       dc goi khi click vao navigabottom
              */
-
             txtKhoangCach.visibility = View.GONE
             fabLike.visibility = View.GONE
             btnSenMessage.visibility = View.GONE
@@ -183,10 +182,7 @@ class WallActivity : AppCompatActivity(), OnWallViewListener, View.OnClickListen
 //        fabLike.setImageResource(R.drawable.ic_un_like)
         isLike = boolean
         Log.d(TAG, "un like ...")
-
-
     }
-
 
     /**
      *      su kien ben adapter

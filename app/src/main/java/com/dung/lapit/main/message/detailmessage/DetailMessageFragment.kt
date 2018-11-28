@@ -18,12 +18,9 @@ import kotlinx.android.synthetic.main.fragment_mesage.*
 
 class DetailMessageFragment : Fragment(), View.OnClickListener, OnMessageFViewListener {
 
-
     private lateinit var detailMessageAdapter: DetailMessageAdapter
     private lateinit var mess: ArrayList<Message>
-
     private lateinit var messagePresenter: MessagePresenter
-
 
     companion object {
         val newFragment: Fragment = DetailMessageFragment()
@@ -38,7 +35,6 @@ class DetailMessageFragment : Fragment(), View.OnClickListener, OnMessageFViewLi
         App.getInsatnce().isCheckGetMessage = false
         mess = ArrayList()
 
-
         return inflater.inflate(R.layout.fragment_mesage, container, false)
 
     }
@@ -49,7 +45,7 @@ class DetailMessageFragment : Fragment(), View.OnClickListener, OnMessageFViewLi
     }
 
     override fun updateMessage(message: Message) {
-////////////////////////////////////////////////////////
+//
     }
 
     @SuppressLint("WrongConstant")
@@ -98,10 +94,11 @@ class DetailMessageFragment : Fragment(), View.OnClickListener, OnMessageFViewLi
     }
 
     override fun senMessagerSuccess() {
-
+        //TODO...
     }
 
     override fun senMessagerFailed() {
+        //TODO...
 
     }
 

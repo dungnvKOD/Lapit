@@ -44,12 +44,12 @@ class MessageActivity : AppCompatActivity() {
             for (frm: androidx.fragment.app.Fragment in frms) {
 
                 fm.beginTransaction()
-//                        .setCustomAnimations(
-//                                R.anim.left_enter,
-//                                R.anim.left_exit,
-//                                R.anim.right_enter,
-//                                R.anim.right_exit
-//                        )
+                        .setCustomAnimations(
+                                R.anim.left_enter,
+                                R.anim.left_exit,
+                                R.anim.right_enter,
+                                R.anim.right_exit
+                        )
                         .hide(frm)
                         .commit()
             }
@@ -62,23 +62,23 @@ class MessageActivity : AppCompatActivity() {
             if (b) {
 
                 fm.beginTransaction()
-//                        .setCustomAnimations(
-//                                R.anim.left_enter,
-//                                R.anim.left_exit,
-//                                R.anim.right_enter,
-//                                R.anim.right_exit
-//                        )
+                        .setCustomAnimations(
+                                R.anim.left_enter,
+                                R.anim.left_exit,
+                                R.anim.right_enter,
+                                R.anim.right_exit
+                        )
                         .add(rootId, f, tag)
                         .addToBackStack(null)
                         .commit()
             } else {
                 fm.beginTransaction()
-//                        .setCustomAnimations(
-//                                R.anim.left_enter,
-//                                R.anim.left_exit,
-//                                R.anim.right_enter,
-//                                R.anim.right_exit
-//                        )
+                        .setCustomAnimations(
+                                R.anim.left_enter,
+                                R.anim.left_exit,
+                                R.anim.right_enter,
+                                R.anim.right_exit
+                        )
 
                         .add(rootId, f, tag)
                         .commit()

@@ -4,7 +4,7 @@ import com.dung.lapit.Model.Message
 
 interface OnMessageViewListener {
 
-    fun getDataSuccess(message: Message)
+    fun getDataSuccess(messages: ArrayList<Message>)
     fun getDataFailed()
 
 }

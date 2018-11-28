@@ -9,8 +9,8 @@ class MessagePresenter(val onMessageViewListener: OnMessageViewListener) : OnMes
         messageModel.getData()
     }
 
-    override fun getDataSuccess(message: Message) {
-        onMessageViewListener.getDataSuccess(message)
+    override fun getDataSuccess(messages: ArrayList<Message>) {
+        onMessageViewListener.getDataSuccess(messages)
     }
 
     override fun getDataFailed() {
