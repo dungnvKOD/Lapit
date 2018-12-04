@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#a3a3a3</color>
+    <color name="colorAccent">#74e8f1</color>
 
 
     <!--<color name="colorPurpleDark">#7200ca</color>-->
     <color name="colorPurpleDark">#358c8c8c</color>
-    <color name="colorPurple">#aa00ff</color>
+    <color name="colorPurple">#a3a3a3</color>
     <color name="colorLight">#e254ff</color>
     <color name="colorTextBack">#000000</color>
     <color name="colorTextDark">#A5A5A5</color>
-    <color name="colorTextLight">#FFFFFF</color>
+    <color name="colorTextLight">#ffffff</color>
     <color name="colorButton">#32454f63</color>
     <color name="colorTextError">#ffffff</color>
 </resources>
